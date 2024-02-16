@@ -50,6 +50,7 @@ jobs:
                   "color": "#00FF00",
                   "pretext": "✅ ALIO CI Success ✅",
                   "author_name": "${{ github.triggering_actor }}",
+                  "author_icon": "${{ github.event.sender.avatar_url }}",
                   "fields": [
                     {
                       "title": "Event",
@@ -80,6 +81,7 @@ jobs:
                   "color": "#FF0000",
                   "pretext": "❌ ALIO CI Failure ❌",
                   "author_name": "${{ github.triggering_actor }}",
+                  "author_icon": "${{ github.event.sender.avatar_url }}",
                   "fields": [
                     {
                       "title": "Event",
