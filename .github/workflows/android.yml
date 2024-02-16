@@ -38,3 +38,73 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: CI Success Notification
+        if: success()
+        uses: slackapi/slack-github-action@v1.25.0
+        with:
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#00FF00",
+                  "title": "✅ALIO CI Success ✅",
+                  "fields": [
+                    {
+                      "title": "Author",
+                      "value": "${{ github.triggering_actor }}"
+                    },
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}"
+                    },
+                    {
+                      "title": "Event",
+                      "value": "${{ github.event_name }}"
+                    },
+                    {
+                      "title": "Ref",
+                      "value": "${{ github.ref_name }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      - name: CI Failure Notification
+        if: failure()
+        uses: slackapi/slack-github-action@v1.25.0
+        with:
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#FF0000",
+                  "title": "❌ALIO CI Failure ❌",
+                  "fields": [
+                    {
+                      "title": "Author",
+                      "value": "${{ github.triggering_actor }}"
+                    },
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}"
+                    },
+                    {
+                      "title": "Event",
+                      "value": "${{ github.event_name }}"
+                    },
+                    {
+                      "title": "Ref",
+                      "value": "${{ github.ref_name }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
