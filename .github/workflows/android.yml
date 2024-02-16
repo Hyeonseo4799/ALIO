@@ -48,23 +48,18 @@ jobs:
               "attachments": [
                 {
                   "color": "#00FF00",
-                  "title": "✅ ALIO CI Success ✅",
+                  "pretext": "✅ ALIO CI Success ✅",
+                  "author_name": "${{ github.triggering_actor }}",
                   "fields": [
                     {
-                      "title": "Author",
-                      "value": "${{ github.triggering_actor }}"
-                    },
-                    {
-                      "title": "Repository",
-                      "value": "${{ github.repository }}"
-                    },
-                    {
                       "title": "Event",
-                      "value": "${{ github.event_name }}"
+                      "value": "${{ github.event_name }}",
+                      "short": true
                     },
                     {
                       "title": "Ref",
-                      "value": "${{ github.ref_name }}"
+                      "value": "${{ github.ref_name }}",
+                      "short": true
                     }
                   ]
                 }
@@ -83,23 +78,18 @@ jobs:
               "attachments": [
                 {
                   "color": "#FF0000",
-                  "title": "❌ ALIO CI Failure ❌",
+                  "pretext": "❌ ALIO CI Failure ❌",
+                  "author_name": "${{ github.triggering_actor }}",
                   "fields": [
                     {
-                      "title": "Author",
-                      "value": "${{ github.triggering_actor }}"
-                    },
-                    {
-                      "title": "Repository",
-                      "value": "${{ github.repository }}"
-                    },
-                    {
                       "title": "Event",
-                      "value": "${{ github.event_name }}"
+                      "value": "${{ github.event_name }}",
+                      "short": true
                     },
                     {
                       "title": "Ref",
-                      "value": "${{ github.ref_name }}"
+                      "value": "${{ github.ref_name }}",
+                      "short": true
                     }
                   ]
                 }
