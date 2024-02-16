@@ -48,7 +48,7 @@ jobs:
               "attachments": [
                 {
                   "color": "#00FF00",
-                  "title": "✅ALIO CI Success ✅",
+                  "title": "✅ ALIO CI Success ✅",
                   "fields": [
                     {
                       "title": "Author",
@@ -83,7 +83,7 @@ jobs:
               "attachments": [
                 {
                   "color": "#FF0000",
-                  "title": "❌ALIO CI Failure ❌",
+                  "title": "❌ ALIO CI Failure ❌",
                   "fields": [
                     {
                       "title": "Author",
