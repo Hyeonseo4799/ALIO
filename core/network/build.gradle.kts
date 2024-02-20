@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.skogkatt.data"
+    namespace = "com.skogkatt.network"
     compileSdk = 34
 
     defaultConfig {

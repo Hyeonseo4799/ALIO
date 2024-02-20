@@ -1,4 +1,4 @@
-package com.skogkatt.data
+package com.skogkatt.network
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.skogkatt.data.test", appContext.packageName)
+        assertEquals("com.skogkatt.network.test", appContext.packageName)
     }
 }

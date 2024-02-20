@@ -1,4 +1,4 @@
-package com.skogkatt.data
+package com.skogkatt.network
 
 import org.junit.Test
 

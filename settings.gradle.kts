@@ -17,5 +17,5 @@ rootProject.name = "ALIO"
 include(
     ":app",
 
-    ":core:data",
+    ":core:network",
 )
