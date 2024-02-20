@@ -30,6 +30,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlin.serialization)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
