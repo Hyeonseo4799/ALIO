@@ -14,4 +14,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ALIO"
-include(":app")
+include(
+    ":app",
+
+    ":core:data",
+)
