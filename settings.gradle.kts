@@ -14,4 +14,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "ALIO"
+
 include(":app")
+include(":core:network")
