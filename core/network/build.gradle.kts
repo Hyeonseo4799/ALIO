@@ -1,10 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.secrets)
 }
 
 android {
@@ -16,6 +17,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField(
+            type = "String",
+            name = "BASE_URL",
+            value = getSecretsProperty("BASE_URL")
+        )
     }
 
     buildTypes {
@@ -36,10 +43,6 @@ android {
     }
 }
 
-secrets {
-    defaultPropertiesFileName = "secrets.defaults.properties"
-}
-
 dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)
@@ -53,4 +56,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext)
     androidTestImplementation(libs.androidx.test.espresso)
+}
+
+fun getSecretsProperty(name: String): String {
+    val propertiesFile = rootProject.file("secrets.properties")
+    val properties = Properties()
+    properties.load(propertiesFile.inputStream())
+    return properties.getProperty(name)
 }
