@@ -18,3 +18,7 @@ rootProject.name = "ALIO"
 
 include(":app")
 include(":core:network")
+
+// Resolve build-logic rebuild failure
+// https://issuetracker.google.com/issues/315023802
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:testClasses"))
