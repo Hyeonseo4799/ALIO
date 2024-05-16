@@ -1,19 +1,18 @@
 [versions]
-androidGradlePlugin = "8.2.2"
-androidxCore = "1.12.0"
+androidGradlePlugin = "8.4.0"
+androidxCore = "1.13.1"
 androidxAppCompat = "1.6.1"
-androidxActivity = "1.8.2"
-androidxComposeBom = "2024.02.00"
-androidxComposeCompiler = "1.5.9"
+androidxActivity = "1.9.0"
+androidxComposeBom = "2024.05.00"
+androidxComposeCompiler = "1.5.14"
 kotlinxSerializationJson = "1.6.3"
-kotlin = "1.9.22"
-ktlint = "12.1.0"
-hilt = "2.50"
-ksp = "1.9.23-1.0.19"
+kotlin = "1.9.24"
+ktlint = "12.1.1"
+hilt = "2.51.1"
+ksp = "1.9.24-1.0.20"
 
 okhttp = "4.12.0"
-retrofit = "2.9.0"
-retrofitKotlinxSerialization = "1.0.0"
+retrofit = "2.11.0"
 
 junit = "4.13.2"
 androidxTestExt = "1.1.5"
@@ -39,7 +38,7 @@ hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-p
 
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerialization" }
+retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
