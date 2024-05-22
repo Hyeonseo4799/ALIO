@@ -18,6 +18,7 @@ rootProject.name = "ALIO"
 
 include(":app")
 include(":core:network")
+include(":core:data")
 
 // Resolve build-logic rebuild failure
 // https://issuetracker.google.com/issues/315023802
