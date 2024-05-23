@@ -1,11 +1,6 @@
 package com.skogkatt.model
 
-data class ArticleResponse(
-    val pages: Int,
-    val articles: List<Article>
-)
-
-data class Article(
+data class Content(
     val id: String,
     val type: String,
     val sectionId: String,
@@ -13,4 +8,5 @@ data class Article(
     val webPublicationDate: String,
     val webTitle: String,
     val webUrl: String,
+    val fields: List<String>,
 )
