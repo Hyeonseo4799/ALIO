@@ -7,12 +7,12 @@ import retrofit2.http.Query
 
 interface GuardianApi {
     @GET("search")
-    fun getAllArticles(
+    suspend fun getAllArticles(
         @Query("page") page: Int,
     ): NetworkArticleResponse
 
     @GET
-    fun getArticleContent(
+    suspend fun getArticleContent(
         @Query("id") id: String,
     ): NetworkContentResponse
 }
