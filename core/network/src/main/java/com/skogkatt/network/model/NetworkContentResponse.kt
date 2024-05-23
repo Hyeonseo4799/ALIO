@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkContentResponse(
-    @SerialName("response") val contents: List<NetworkContent>,
+    @SerialName("response") val content: NetworkContent,
 )
 
 @Serializable
