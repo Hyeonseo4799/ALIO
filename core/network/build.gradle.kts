@@ -19,6 +19,12 @@ android {
             name = "BASE_URL",
             value = getSecretsProperty("BASE_URL")
         )
+
+        buildConfigField(
+            type = "String",
+            name = "API_KEY",
+            value = getSecretsProperty("API_KEY")
+        )
     }
 
     buildTypes {
