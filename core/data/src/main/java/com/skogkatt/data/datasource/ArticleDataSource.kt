@@ -1,7 +1,7 @@
 package com.skogkatt.data.datasource
 
-import com.skogkatt.network.model.NetworkArticleResponse
-import com.skogkatt.network.model.NetworkContentResponse
+import com.skogkatt.network.model.article.NetworkArticleResponse
+import com.skogkatt.network.model.article.NetworkContentResponse
 
 internal interface ArticleDataSource {
     suspend fun getAllArticles(page: Int): NetworkArticleResponse

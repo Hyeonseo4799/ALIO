@@ -2,8 +2,8 @@ package com.skogkatt.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.skogkatt.network.model.NetworkArticle
-import com.skogkatt.network.model.NetworkArticleResponse
+import com.skogkatt.network.model.article.NetworkArticle
+import com.skogkatt.network.model.article.NetworkArticleResponse
 
 private const val StartingPage = 1
 

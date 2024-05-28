@@ -1,7 +1,7 @@
 package com.skogkatt.data.model
 
 import com.skogkatt.model.Article
-import com.skogkatt.network.model.NetworkArticle
+import com.skogkatt.network.model.article.NetworkArticle
 
 internal fun NetworkArticle.toArticle() = Article(
     id = id,
