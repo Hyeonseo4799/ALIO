@@ -1,4 +1,4 @@
-package com.skogkatt.network.model.translate
+package com.skogkatt.network.model.translation
 
 import kotlinx.serialization.Serializable
 
