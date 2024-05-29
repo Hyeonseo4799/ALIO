@@ -1,4 +1,4 @@
-package com.skogkatt.network.model
+package com.skogkatt.network.model.article
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

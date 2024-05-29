@@ -7,20 +7,29 @@ import okhttp3.Response
 internal class ApiKeyInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val url = request.url
+        val host = request.url.host
+        val builder = request.newBuilder()
 
-        if (url.host.contains("content.guardianapis.com")) {
-            val newUrl = url.newBuilder()
-                .addQueryParameter(name = "api-key", value = BuildConfig.API_KEY)
-                .build()
+        when {
+            host.contains("content.guardianapis.com") -> {
+                val newUrl = request.url.newBuilder()
+                    .addQueryParameter(
+                        name = "api-key",
+                        value = BuildConfig.GUARDIAN_API_KEY
+                    )
+                    .build()
 
-            val newRequest = request.newBuilder()
-                .url(newUrl)
-                .build()
+                builder.url(newUrl)
+            }
 
-            return chain.proceed(newRequest)
+            host.contains("api.deepl.com") -> {
+                builder.addHeader(
+                    name = "Authorization",
+                    value = "DeepL-Auth-Key ${BuildConfig.DEEPL_API_KEY}"
+                )
+            }
         }
 
-        return chain.proceed(request)
+        return chain.proceed(builder.build())
     }
 }

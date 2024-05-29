@@ -1,7 +1,7 @@
 package com.skogkatt.network.api
 
-import com.skogkatt.network.model.NetworkArticleResponse
-import com.skogkatt.network.model.NetworkContentResponse
+import com.skogkatt.network.model.article.NetworkArticleResponse
+import com.skogkatt.network.model.article.NetworkContentResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

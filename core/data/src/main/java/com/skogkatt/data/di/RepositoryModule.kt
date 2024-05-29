@@ -1,7 +1,9 @@
 package com.skogkatt.data.di
 
-import com.skogkatt.data.repository.ArticleRepository
-import com.skogkatt.data.repository.ArticleRepositoryImpl
+import com.skogkatt.data.repository.article.ArticleRepository
+import com.skogkatt.data.repository.article.ArticleRepositoryImpl
+import com.skogkatt.data.repository.translation.TranslationRepository
+import com.skogkatt.data.repository.translation.TranslationRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +16,9 @@ internal interface RepositoryModule {
     fun bindsArticleRepository(
         articleRepositoryImpl: ArticleRepositoryImpl,
     ): ArticleRepository
+
+    @Binds
+    fun bindsTranslationRepository(
+        translationRepositoryImpl: TranslationRepositoryImpl,
+    ): TranslationRepository
 }

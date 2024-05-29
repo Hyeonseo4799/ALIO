@@ -14,17 +14,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        buildConfigField(
-            type = "String",
-            name = "BASE_URL",
-            value = getSecretsProperty("BASE_URL")
-        )
-
-        buildConfigField(
-            type = "String",
-            name = "API_KEY",
-            value = getSecretsProperty("API_KEY")
-        )
+        buildConfigField("String", "BASE_URL", getSecretsProperty("BASE_URL"))
+        buildConfigField("String", "GUARDIAN_API_KEY", getSecretsProperty("GUARDIAN_API_KEY"))
+        buildConfigField("String", "DEEPL_API_KEY", getSecretsProperty("DEEPL_API_KEY"))
     }
 
     buildTypes {

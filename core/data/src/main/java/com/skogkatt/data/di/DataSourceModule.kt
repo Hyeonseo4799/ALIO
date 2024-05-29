@@ -1,7 +1,9 @@
 package com.skogkatt.data.di
 
-import com.skogkatt.data.datasource.ArticleDataSource
-import com.skogkatt.data.datasource.ArticleDataSourceImpl
+import com.skogkatt.data.datasource.article.ArticleDataSource
+import com.skogkatt.data.datasource.article.ArticleDataSourceImpl
+import com.skogkatt.data.datasource.translation.TranslationDataSource
+import com.skogkatt.data.datasource.translation.TranslationDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +16,9 @@ internal interface DataSourceModule {
     fun bindsArticleDataSource(
         articleDataSourceImpl: ArticleDataSourceImpl,
     ): ArticleDataSource
+
+    @Binds
+    fun bindsTranslationDataSource(
+        translationDataSourceImpl: TranslationDataSourceImpl,
+    ): TranslationDataSource
 }
