@@ -1,9 +1,9 @@
-package com.skogkatt.data.model
+package com.skogkatt.data.model.article
 
-import com.skogkatt.model.Article
+import com.skogkatt.model.article.ArticleResponse
 import com.skogkatt.network.model.article.NetworkArticle
 
-internal fun NetworkArticle.toArticle() = Article(
+internal fun NetworkArticle.toArticleResponse() = ArticleResponse(
     id = id,
     type = type,
     sectionId = sectionId,

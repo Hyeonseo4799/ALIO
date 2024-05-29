@@ -1,6 +1,6 @@
-package com.skogkatt.model
+package com.skogkatt.model.article
 
-data class Article(
+data class ArticleResponse(
     val id: String,
     val type: String,
     val sectionId: String,
