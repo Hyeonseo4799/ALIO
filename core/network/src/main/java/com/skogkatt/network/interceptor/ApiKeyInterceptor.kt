@@ -28,6 +28,17 @@ internal class ApiKeyInterceptor : Interceptor {
                     value = "DeepL-Auth-Key ${BuildConfig.DEEPL_API_KEY}"
                 )
             }
+
+            host.contains("texttospeech.googleapis.com") -> {
+                val newUrl = request.url.newBuilder()
+                    .addQueryParameter(
+                        name = "key",
+                        value = BuildConfig.GOOGLE_TTS_API_KEY
+                    )
+                    .build()
+
+                builder.url(newUrl)
+            }
         }
 
         return chain.proceed(builder.build())
