@@ -3,6 +3,7 @@ package com.skogkatt.network.di
 import com.skogkatt.network.interceptor.ApiKeyInterceptor
 import com.skogkatt.network.BuildConfig
 import com.skogkatt.network.api.DeepLApi
+import com.skogkatt.network.api.GoogleTTSApi
 import com.skogkatt.network.api.GuardianApi
 import dagger.Module
 import dagger.Provides
@@ -53,5 +54,11 @@ internal object NetworkModule {
     @Singleton
     fun provideDeepLApi(retrofit: Retrofit): DeepLApi {
         return retrofit.create(DeepLApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGoogleTTSApi(retrofit: Retrofit): GoogleTTSApi {
+        return retrofit.create(GoogleTTSApi::class.java)
     }
 }

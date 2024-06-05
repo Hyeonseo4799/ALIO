@@ -9,6 +9,6 @@ internal class TranslationDataSourceImpl @Inject constructor(
     private val deepLApi: DeepLApi
 ): TranslationDataSource {
     override suspend fun translate(body: NetworkTranslationRequest): NetworkTranslationResponse {
-        return deepLApi.translate(body = body)
+        return deepLApi.translate(body)
     }
 }

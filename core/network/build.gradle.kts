@@ -17,6 +17,7 @@ android {
         buildConfigField("String", "BASE_URL", getSecretsProperty("BASE_URL"))
         buildConfigField("String", "GUARDIAN_API_KEY", getSecretsProperty("GUARDIAN_API_KEY"))
         buildConfigField("String", "DEEPL_API_KEY", getSecretsProperty("DEEPL_API_KEY"))
+        buildConfigField("String", "GOOGLE_TTS_API_KEY", getSecretsProperty("GOOGLE_TTS_API_KEY"))
     }
 
     buildTypes {
