@@ -2,6 +2,8 @@ package com.skogkatt.data.di
 
 import com.skogkatt.data.datasource.article.ArticleDataSource
 import com.skogkatt.data.datasource.article.ArticleDataSourceImpl
+import com.skogkatt.data.datasource.audio.AudioDataSource
+import com.skogkatt.data.datasource.audio.AudioDataSourceImpl
 import com.skogkatt.data.datasource.translation.TranslationDataSource
 import com.skogkatt.data.datasource.translation.TranslationDataSourceImpl
 import dagger.Binds
@@ -21,4 +23,9 @@ internal interface DataSourceModule {
     fun bindsTranslationDataSource(
         translationDataSourceImpl: TranslationDataSourceImpl,
     ): TranslationDataSource
+
+    @Binds
+    fun bindsAudioDataSource(
+        audioDataSourceImpl: AudioDataSourceImpl,
+    ): AudioDataSource
 }
