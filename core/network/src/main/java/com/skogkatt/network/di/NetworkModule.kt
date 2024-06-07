@@ -2,9 +2,10 @@ package com.skogkatt.network.di
 
 import com.skogkatt.network.interceptor.ApiKeyInterceptor
 import com.skogkatt.network.BuildConfig
-import com.skogkatt.network.api.DeepLApi
-import com.skogkatt.network.api.GoogleTTSApi
-import com.skogkatt.network.api.GuardianApi
+import com.skogkatt.network.api.retrofit.DeepLApi
+import com.skogkatt.network.api.retrofit.GoogleTTSApi
+import com.skogkatt.network.api.retrofit.GuardianApi
+import com.skogkatt.network.interceptor.BaseUrlInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,9 +29,11 @@ internal object NetworkModule {
     @Provides
     @Singleton
     fun provideOkhttpClient(
-        apiKeyInterceptor: ApiKeyInterceptor
+        apiKeyInterceptor: ApiKeyInterceptor,
+        baseUrlInterceptor: BaseUrlInterceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(apiKeyInterceptor)
+        .addInterceptor(baseUrlInterceptor)
         .build()
 
     @Provides
@@ -39,7 +42,7 @@ internal object NetworkModule {
         okHttpClient: OkHttpClient,
         json: Json,
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(BuildConfig.GUARDIAN_BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
