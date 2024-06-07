@@ -1,6 +1,6 @@
 package com.skogkatt.data.datasource.translation
 
-import com.skogkatt.network.api.DeepLApi
+import com.skogkatt.network.api.retrofit.DeepLApi
 import com.skogkatt.network.model.translation.NetworkTranslationRequest
 import com.skogkatt.network.model.translation.NetworkTranslationResponse
 import javax.inject.Inject

@@ -1,6 +1,6 @@
 package com.skogkatt.data.datasource.audio
 
-import com.skogkatt.network.api.GoogleTTSApi
+import com.skogkatt.network.api.retrofit.GoogleTTSApi
 import com.skogkatt.network.model.audio.NetworkAudioRequest
 import javax.inject.Inject
 

@@ -1,5 +1,7 @@
-package com.skogkatt.network.api
+package com.skogkatt.network.api.retrofit
 
+import com.skogkatt.network.api.Api
+import com.skogkatt.network.api.ApiType
 import com.skogkatt.network.model.translation.NetworkTranslationRequest
 import com.skogkatt.network.model.translation.NetworkTranslationResponse
 import retrofit2.http.Body
@@ -7,6 +9,7 @@ import retrofit2.http.GET
 
 interface DeepLApi {
     @GET("v2/translate")
+    @Api(ApiType.DEEPL)
     suspend fun translate(
         @Body body: NetworkTranslationRequest
     ): NetworkTranslationResponse

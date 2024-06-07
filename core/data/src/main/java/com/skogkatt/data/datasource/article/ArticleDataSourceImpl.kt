@@ -1,6 +1,6 @@
 package com.skogkatt.data.datasource.article
 
-import com.skogkatt.network.api.GuardianApi
+import com.skogkatt.network.api.retrofit.GuardianApi
 import com.skogkatt.network.model.article.NetworkArticleResponse
 import com.skogkatt.network.model.article.NetworkContentResponse
 import javax.inject.Inject

@@ -14,7 +14,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        buildConfigField("String", "BASE_URL", getSecretsProperty("BASE_URL"))
+        buildConfigField("String", "GUARDIAN_BASE_URL", getSecretsProperty("GUARDIAN_BASE_URL"))
+        buildConfigField("String", "DEEPL_BASE_URL", getSecretsProperty("DEEPL_BASE_URL"))
+        buildConfigField("String", "GOOGLE_TTS_BASE_URL", getSecretsProperty("GOOGLE_TTS_BASE_URL"))
         buildConfigField("String", "GUARDIAN_API_KEY", getSecretsProperty("GUARDIAN_API_KEY"))
         buildConfigField("String", "DEEPL_API_KEY", getSecretsProperty("DEEPL_API_KEY"))
         buildConfigField("String", "GOOGLE_TTS_API_KEY", getSecretsProperty("GOOGLE_TTS_API_KEY"))
