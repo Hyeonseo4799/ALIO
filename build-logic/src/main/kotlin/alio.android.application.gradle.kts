@@ -4,6 +4,7 @@ import com.skogkatt.alio.configureKotlinAndroid
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("plugin.compose")
 }
 
 android {
