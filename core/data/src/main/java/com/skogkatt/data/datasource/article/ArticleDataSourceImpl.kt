@@ -8,12 +8,12 @@ import javax.inject.Inject
 internal class ArticleDataSourceImpl @Inject constructor(
     private val guardianApi: GuardianApi
 ) : ArticleDataSource {
-    override suspend fun getAllArticles(
+    override suspend fun getArticles(
         page: Int,
         query: String?,
         section: String?,
     ): NetworkArticleResponse {
-        return guardianApi.getAllArticles(
+        return guardianApi.getArticles(
             page = page,
             query = query,
             section = section

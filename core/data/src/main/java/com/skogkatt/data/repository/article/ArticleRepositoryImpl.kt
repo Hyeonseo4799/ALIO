@@ -17,7 +17,7 @@ import javax.inject.Inject
 internal class ArticleRepositoryImpl @Inject constructor(
     private val articleDataSource: ArticleDataSource
 ): ArticleRepository {
-    override fun getAllArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>> {
+    override fun getArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -25,7 +25,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
             ),
             pagingSourceFactory = {
                 ArticlePagingSource { page ->
-                    articleDataSource.getAllArticles(
+                    articleDataSource.getArticles(
                         page = page,
                         query = query,
                         section = section,

@@ -6,7 +6,7 @@ import com.skogkatt.model.article.ContentResponse
 import kotlinx.coroutines.flow.Flow
 
 internal interface ArticleRepository {
-    fun getAllArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>>
+    fun getArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>>
 
     suspend fun getArticleContent(id: String): ContentResponse
 }

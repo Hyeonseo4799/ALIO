@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface GuardianApi {
     @GET("search")
     @Api(ApiType.GUARDIAN)
-    suspend fun getAllArticles(
+    suspend fun getArticles(
         @Query("page") page: Int,
         @Query("q") query: String?,
         @Query("section") section: String?,
