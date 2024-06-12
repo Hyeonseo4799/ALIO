@@ -17,14 +17,20 @@ import javax.inject.Inject
 internal class ArticleRepositoryImpl @Inject constructor(
     private val articleDataSource: ArticleDataSource
 ): ArticleRepository {
-    override fun getAllArticles(page: Int): Flow<PagingData<ArticleResponse>> {
+    override fun getAllArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                ArticlePagingSource(articleDataSource::getAllArticles)
+                ArticlePagingSource { page ->
+                    articleDataSource.getAllArticles(
+                        page = page,
+                        query = query,
+                        section = section,
+                    )
+                }
             },
         ).flow.map { pagingData ->
             pagingData.map { it.toArticleResponse() }

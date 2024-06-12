@@ -13,13 +13,15 @@ interface GuardianApi {
     @Api(ApiType.GUARDIAN)
     suspend fun getAllArticles(
         @Query("page") page: Int,
-        @Query("show-fields") showFields: List<String> = listOf("thumbnail")
+        @Query("q") query: String?,
+        @Query("section") section: String?,
+        @Query("show-fields") showFields: List<String> = listOf("thumbnail"),
     ): NetworkArticleResponse
 
     @GET("{id}")
     @Api(ApiType.GUARDIAN)
     suspend fun getArticleContent(
         @Path("id") id: String,
-        @Query("show-fields") showFields: List<String> = listOf("bodyText", "thumbnail")
+        @Query("show-fields") showFields: List<String> = listOf("bodyText", "thumbnail"),
     ): NetworkContentResponse
 }
