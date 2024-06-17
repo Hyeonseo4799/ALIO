@@ -5,10 +5,9 @@ import com.skogkatt.network.model.article.NetworkArticle
 
 internal fun NetworkArticle.toArticleResponse() = ArticleResponse(
     id = id,
-    type = type,
     sectionId = sectionId,
     sectionName = sectionName,
     webPublicationDate = webPublicationDate,
     webTitle = webTitle,
-    webUrl = webUrl,
+    thumbnail = fields.thumbnail,
 )

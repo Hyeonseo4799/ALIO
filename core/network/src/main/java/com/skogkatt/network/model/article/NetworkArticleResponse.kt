@@ -12,10 +12,14 @@ data class NetworkArticleResponse(
 @Serializable
 data class NetworkArticle(
     val id: String,
-    val type: String,
     val sectionId: String,
     val sectionName: String,
     val webPublicationDate: String,
     val webTitle: String,
-    val webUrl: String,
-)
+    val fields: Fields,
+) {
+    @Serializable
+    data class Fields(
+        val thumbnail: String,
+    )
+}
