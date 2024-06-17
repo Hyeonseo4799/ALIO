@@ -20,6 +20,7 @@ include(":app")
 include(":core:network")
 include(":core:data")
 include(":core:model")
+include(":feature:news-feed")
 
 // Resolve build-logic rebuild failure
 // https://issuetracker.google.com/issues/315023802
