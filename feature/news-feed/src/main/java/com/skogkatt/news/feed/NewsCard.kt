@@ -33,7 +33,7 @@ internal fun NewsCard(
         onClick = onClick,
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFF1F1F2),
+            containerColor = Color.White,
         ),
     ) {
         Row {
