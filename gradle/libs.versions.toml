@@ -13,6 +13,7 @@ ksp = "2.0.0-1.0.22"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 paging = "3.3.0"
+landscapist = "2.3.4"
 
 junit = "4.13.2"
 androidxTestExt = "1.1.5"
@@ -43,6 +44,7 @@ retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "conv
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+landscapist-glide = { group = "com.github.skydoves", name = "landscapist-glide", version.ref = "landscapist" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExt" }
