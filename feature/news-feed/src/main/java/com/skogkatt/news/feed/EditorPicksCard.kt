@@ -75,7 +75,7 @@ fun EditorPicksCard(
 
 @Preview
 @Composable
-fun EditorPicksCardPreview() {
+private fun EditorPicksCardPreview() {
     EditorPicksCard(
         imageUrl = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg",
         title = "중앙 은행은 대출자들이 구제를 기다리는 동안 금리를 4.35%로 동결합니다.",
