@@ -22,6 +22,7 @@ include(":core:data")
 include(":core:model")
 include(":core:ui")
 include(":feature:news-feed")
+include(":feature:news-detail")
 
 // Resolve build-logic rebuild failure
 // https://issuetracker.google.com/issues/315023802
