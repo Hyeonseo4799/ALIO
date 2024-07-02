@@ -9,4 +9,6 @@ internal interface ArticleRepository {
     fun getArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>>
 
     suspend fun getArticleContent(id: String): ContentResponse
+
+    suspend fun getEditorsPicks(): List<ArticleResponse>
 }

@@ -4,6 +4,7 @@ import com.skogkatt.network.api.Api
 import com.skogkatt.network.api.ApiType
 import com.skogkatt.network.model.article.NetworkArticleResponse
 import com.skogkatt.network.model.article.NetworkContentResponse
+import com.skogkatt.network.model.editorspicks.NetworkEditorsPicksResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -24,4 +25,11 @@ interface GuardianApi {
         @Path("id") id: String,
         @Query("show-fields") showFields: List<String> = listOf("bodyText", "thumbnail"),
     ): NetworkContentResponse
+
+    @GET("world")
+    @Api(ApiType.GUARDIAN)
+    suspend fun getEditorsPicks(
+        @Query("show-editors-picks") showEditorsPicks: Boolean = true,
+        @Query("show-fields") showFields: List<String> = listOf("thumbnail")
+    ): NetworkEditorsPicksResponse
 }
