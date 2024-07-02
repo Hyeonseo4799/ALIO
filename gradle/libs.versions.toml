@@ -17,7 +17,7 @@ landscapist = "2.3.4"
 
 junit = "4.13.2"
 androidxTestExt = "1.2.1"
-androidxEspresso = "3.5.1"
+androidxEspresso = "3.6.1"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
