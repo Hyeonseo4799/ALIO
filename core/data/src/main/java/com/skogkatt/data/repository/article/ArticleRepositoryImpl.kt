@@ -40,4 +40,8 @@ internal class ArticleRepositoryImpl @Inject constructor(
     override suspend fun getArticleContent(id: String): ContentResponse {
         return articleDataSource.getArticleContent(id).content.toContentResponse()
     }
+
+    override suspend fun getEditorsPicks(): List<ArticleResponse> {
+        return articleDataSource.getEditorsPicks().editorsPicks.map { it.toArticleResponse() }
+    }
 }
