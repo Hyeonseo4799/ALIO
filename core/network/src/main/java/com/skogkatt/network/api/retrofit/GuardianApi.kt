@@ -15,20 +15,22 @@ interface GuardianApi {
     suspend fun getArticles(
         @Query("page") page: Int,
         @Query("section") section: String?,
-        @Query("show-fields") showFields: List<String> = listOf("thumbnail"),
+        @Query("show-fields") showFields: String = "thumbnail",
+        @Query("type") type: String = "article",
     ): ArticleListResponse
 
     @GET("{id}")
     @Api(ApiType.GUARDIAN)
     suspend fun getArticleById(
         @Path("id") id: String,
-        @Query("show-fields") showFields: List<String> = listOf("bodyText", "thumbnail"),
+        @Query("show-fields") showFields: String = "bodyText,thumbnail",
     ): ArticleContentResponse
 
     @GET("world")
     @Api(ApiType.GUARDIAN)
     suspend fun getEditorsPicks(
         @Query("show-editors-picks") showEditorsPicks: Boolean = true,
-        @Query("show-fields") showFields: List<String> = listOf("thumbnail")
+        @Query("show-fields") showFields: String = "thumbnail",
+        @Query("type") type: String = "article",
     ): EditorsPicksResponse
 }
