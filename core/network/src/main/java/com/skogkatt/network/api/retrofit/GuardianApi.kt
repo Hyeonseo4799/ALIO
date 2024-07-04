@@ -14,7 +14,6 @@ interface GuardianApi {
     @Api(ApiType.GUARDIAN)
     suspend fun getArticles(
         @Query("page") page: Int,
-        @Query("q") query: String?,
         @Query("section") section: String?,
         @Query("show-fields") showFields: List<String> = listOf("thumbnail"),
     ): ArticleListResponse

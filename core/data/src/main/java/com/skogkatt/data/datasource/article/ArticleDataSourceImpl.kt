@@ -11,12 +11,10 @@ internal class ArticleDataSourceImpl @Inject constructor(
 ) : ArticleDataSource {
     override suspend fun getArticles(
         page: Int,
-        query: String?,
         section: String?,
     ): ArticleListResponse {
         return guardianApi.getArticles(
             page = page,
-            query = query,
             section = section
         )
     }
