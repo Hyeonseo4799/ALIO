@@ -1,10 +1,8 @@
 package com.skogkatt.data.model.translation
 
-import com.skogkatt.model.translation.TranslationRequest
-import com.skogkatt.network.model.translation.NetworkTranslationRequest
+import com.skogkatt.model.translation.Translation
+import com.skogkatt.network.model.translation.TranslationRequest
 
-internal fun TranslationRequest.toNetworkTranslationRequest() = NetworkTranslationRequest(
+internal fun Translation.toTranslationRequest() = TranslationRequest(
     texts = texts,
-    sourceLang = sourceLang,
-    targetLang = targetLang,
 )

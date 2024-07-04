@@ -1,8 +1,8 @@
 package com.skogkatt.data.datasource.translation
 
-import com.skogkatt.network.model.translation.NetworkTranslationRequest
-import com.skogkatt.network.model.translation.NetworkTranslationResponse
+import com.skogkatt.network.model.translation.TranslationRequest
+import com.skogkatt.network.model.translation.TranslationResponse
 
 internal interface TranslationDataSource {
-    suspend fun translate(body: NetworkTranslationRequest): NetworkTranslationResponse
+    suspend fun translate(body: TranslationRequest): TranslationResponse
 }

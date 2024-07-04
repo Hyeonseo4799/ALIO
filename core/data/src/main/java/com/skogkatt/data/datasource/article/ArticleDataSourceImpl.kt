@@ -1,9 +1,9 @@
 package com.skogkatt.data.datasource.article
 
 import com.skogkatt.network.api.retrofit.GuardianApi
-import com.skogkatt.network.model.article.NetworkArticleResponse
-import com.skogkatt.network.model.article.NetworkContentResponse
-import com.skogkatt.network.model.editorspicks.NetworkEditorsPicksResponse
+import com.skogkatt.network.model.article.ArticleContentResponse
+import com.skogkatt.network.model.article.ArticleListResponse
+import com.skogkatt.network.model.article.EditorsPicksResponse
 import javax.inject.Inject
 
 internal class ArticleDataSourceImpl @Inject constructor(
@@ -13,7 +13,7 @@ internal class ArticleDataSourceImpl @Inject constructor(
         page: Int,
         query: String?,
         section: String?,
-    ): NetworkArticleResponse {
+    ): ArticleListResponse {
         return guardianApi.getArticles(
             page = page,
             query = query,
@@ -21,11 +21,11 @@ internal class ArticleDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun getArticleContent(id: String): NetworkContentResponse {
-        return guardianApi.getArticleContent(id)
+    override suspend fun getArticleContent(id: String): ArticleContentResponse {
+        return guardianApi.getArticleById(id)
     }
 
-    override suspend fun getEditorsPicks(): NetworkEditorsPicksResponse {
+    override suspend fun getEditorsPicks(): EditorsPicksResponse {
         return guardianApi.getEditorsPicks()
     }
 }

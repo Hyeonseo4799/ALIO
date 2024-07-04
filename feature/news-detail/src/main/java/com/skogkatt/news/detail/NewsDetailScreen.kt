@@ -14,12 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.skogkatt.model.article.ContentResponse
+import com.skogkatt.model.article.ArticleWithBodyText
 import com.skogkatt.ui.pretendard
 
 @Composable
 internal fun NewsDetailScreen(
-    content: ContentResponse,
+    content: ArticleWithBodyText,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -30,15 +30,15 @@ internal fun NewsDetailScreen(
     ) {
         item {
             HeaderImage(
-                imageUrl = content.thumbnail,
-                relativeTime = content.webPublicationDate,
+                imageUrl = content.thumbnailUrl,
+                relativeTime = content.publishedAt,
                 navigateToBack = { /* TODO: 뒤로가기 */ }
             )
         }
 
         item {
             Text(
-                text = content.webTitle,
+                text = content.title,
                 modifier = Modifier.padding(horizontal = 20.dp),
                 color = Color.Black,
                 fontSize = 26.sp,
@@ -66,13 +66,12 @@ internal fun NewsDetailScreen(
 @Preview
 @Composable
 private fun NewsDetailScreenPreview() {
-    val content = ContentResponse(
+    val content = ArticleWithBodyText(
         id = "australia-news/article/2024/jun/18/reserve-bank-leaves-interest-rate-on-hold-at-435-with-borrowers-left-waiting-for-relief",
         sectionId = "australia-news",
-        sectionName = "Australia news",
-        webPublicationDate = "10분 전",
-        webTitle = "중앙 은행은 대출자들이 구제를 기다리는 동안 금리를 4.35%로 동결합니다.",
-        thumbnail = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg",
+        publishedAt = "10분 전",
+        title = "중앙 은행은 대출자들이 구제를 기다리는 동안 금리를 4.35%로 동결합니다.",
+        thumbnailUrl = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg",
         bodyText = """
             호주 중앙은행이 5회 연속 이사회에서 기준금리를 동결했지만 필요한 경우 추가 금리 인상 옵션을 남겨두면서 호주 대출자들은 또 한 번 유예를 받았습니다. 
             

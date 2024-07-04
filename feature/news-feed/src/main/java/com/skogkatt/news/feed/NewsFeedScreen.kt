@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.skogkatt.model.article.ArticleResponse
+import com.skogkatt.model.article.Article
 import com.skogkatt.ui.pretendard
 import kotlin.math.roundToInt
 
@@ -45,8 +45,8 @@ val AppBarHeight = 64.dp
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 internal fun NewsFeedScreen(
-    editorPicks: List<ArticleResponse>,
-    articles: List<ArticleResponse>,
+    editorPicks: List<Article>,
+    articles: List<Article>,
     modifier: Modifier = Modifier,
 ) {
     val appBarHeightPx = with(LocalDensity.current) { AppBarHeight.roundToPx().toFloat() }
@@ -98,9 +98,9 @@ internal fun NewsFeedScreen(
                     val editorPick = editorPicks[it]
 
                     EditorPicksCard(
-                        title = editorPick.webTitle,
-                        relativeTime = editorPick.webPublicationDate,
-                        imageUrl = editorPick.thumbnail,
+                        title = editorPick.title,
+                        relativeTime = editorPick.publishedAt,
+                        imageUrl = editorPick.thumbnailUrl,
                         onClick = { /* TODO: 뉴스 디테일 화면으로 이동 */ },
                     )
                 }
@@ -121,9 +121,9 @@ internal fun NewsFeedScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp),
-                    title = article.webTitle,
-                    relativeTime = article.webPublicationDate,
-                    imageUrl = article.thumbnail,
+                    title = article.title,
+                    relativeTime = article.publishedAt,
+                    imageUrl = article.thumbnailUrl,
                     onClick = { /* TODO: 뉴스 디테일 화면으로 이동 */ }
                 )
             }
@@ -165,24 +165,22 @@ internal fun NewsFeedScreen(
 @Composable
 private fun NewsFeedScreenPreview() {
     val editorPicks = List(5) {
-        ArticleResponse(
+        Article(
             id = "australia-news/article/2024/jun/18/reserve-bank-leaves-interest-rate-on-hold-at-435-with-borrowers-left-waiting-for-relief",
             sectionId = "australia-news",
-            sectionName = "Australia News",
-            webPublicationDate = "10분 전",
-            webTitle = "중앙 은행은 대출자들이 구제를 기다리는 동안 금리를 4.35%로 동결합니다.",
-            thumbnail = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg"
+            publishedAt = "10분 전",
+            title = "중앙 은행은 대출자들이 구제를 기다리는 동안 금리를 4.35%로 동결합니다.",
+            thumbnailUrl = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg"
         )
     }
 
     val articles = List(10) {
-        ArticleResponse(
+        Article(
             id = "business/article/2024/jun/18/investment-in-uk-has-trailed-other-g7-countries-since-mid-1990s-ippr-says",
             sectionId = "business",
-            sectionName = "Business",
-            webPublicationDate = "1시간 전",
-            webTitle = "영국에 대한 투자는 1990 년대 중반 이후 다른 G7 국가를 뒤쫓고 있다고 IPPR은 말합니다.",
-            thumbnail = "https://media.guim.co.uk/ae194759ab246c9f9d80ac7ec6209888b31dd133/0_373_5559_3337/500.jpg"
+            publishedAt = "1시간 전",
+            title = "영국에 대한 투자는 1990 년대 중반 이후 다른 G7 국가를 뒤쫓고 있다고 IPPR은 말합니다.",
+            thumbnailUrl = "https://media.guim.co.uk/ae194759ab246c9f9d80ac7ec6209888b31dd133/0_373_5559_3337/500.jpg"
         )
     }
 

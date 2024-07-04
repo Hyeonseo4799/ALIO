@@ -1,8 +1,10 @@
 package com.skogkatt.network.model.translation
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class NetworkTranslationRequest(
+@Serializable
+data class TranslationRequest(
     @SerialName("text") val texts: List<String>,
     @SerialName("source_lang") val sourceLang: String = "EN",
     @SerialName("target_lang") val targetLang: String = "KO",
