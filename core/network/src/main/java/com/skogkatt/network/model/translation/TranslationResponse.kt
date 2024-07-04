@@ -3,7 +3,7 @@ package com.skogkatt.network.model.translation
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkTranslationResponse(
+data class TranslationResponse(
     val translations: List<Translation>,
 )
 

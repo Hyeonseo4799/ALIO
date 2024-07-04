@@ -5,11 +5,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.skogkatt.data.datasource.article.ArticleDataSource
-import com.skogkatt.data.model.article.toArticleResponse
-import com.skogkatt.data.model.article.toContentResponse
+import com.skogkatt.data.model.article.toArticle
+import com.skogkatt.data.model.article.toArticleWithBodyText
 import com.skogkatt.data.paging.ArticlePagingSource
-import com.skogkatt.model.article.ArticleResponse
-import com.skogkatt.model.article.ContentResponse
+import com.skogkatt.model.article.Article
+import com.skogkatt.model.article.ArticleWithBodyText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import javax.inject.Inject
 internal class ArticleRepositoryImpl @Inject constructor(
     private val articleDataSource: ArticleDataSource
 ): ArticleRepository {
-    override fun getArticles(query: String?, section: String?): Flow<PagingData<ArticleResponse>> {
+    override fun getArticles(section: String?): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -27,21 +27,20 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 ArticlePagingSource { page ->
                     articleDataSource.getArticles(
                         page = page,
-                        query = query,
                         section = section,
                     )
                 }
             },
         ).flow.map { pagingData ->
-            pagingData.map { it.toArticleResponse() }
+            pagingData.map { it.toArticle() }
         }
     }
 
-    override suspend fun getArticleContent(id: String): ContentResponse {
-        return articleDataSource.getArticleContent(id).content.toContentResponse()
+    override suspend fun getArticleContent(id: String): ArticleWithBodyText {
+        return articleDataSource.getArticleContent(id).articleContent.toArticleWithBodyText()
     }
 
-    override suspend fun getEditorsPicks(): List<ArticleResponse> {
-        return articleDataSource.getEditorsPicks().editorsPicks.map { it.toArticleResponse() }
+    override suspend fun getEditorsPicks(): List<Article> {
+        return articleDataSource.getEditorsPicks().editorsPicks.map { it.toArticle() }
     }
 }

@@ -1,13 +1,12 @@
 package com.skogkatt.data.model.article
 
-import com.skogkatt.model.article.ArticleResponse
-import com.skogkatt.network.model.article.NetworkArticle
+import com.skogkatt.model.article.Article
+import com.skogkatt.network.model.article.ArticleResponse
 
-internal fun NetworkArticle.toArticleResponse() = ArticleResponse(
+internal fun ArticleResponse.toArticle() = Article(
     id = id,
     sectionId = sectionId,
-    sectionName = sectionName,
-    webPublicationDate = webPublicationDate,
-    webTitle = webTitle,
-    thumbnail = fields.thumbnail,
+    publishedAt = publishedAt,
+    title = title,
+    thumbnailUrl = fields.thumbnailUrl,
 )

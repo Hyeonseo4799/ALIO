@@ -1,13 +1,13 @@
 package com.skogkatt.data.datasource.article
 
-import com.skogkatt.network.model.article.NetworkArticleResponse
-import com.skogkatt.network.model.article.NetworkContentResponse
-import com.skogkatt.network.model.editorspicks.NetworkEditorsPicksResponse
+import com.skogkatt.network.model.article.ArticleContentResponse
+import com.skogkatt.network.model.article.ArticleListResponse
+import com.skogkatt.network.model.article.EditorsPicksResponse
 
 internal interface ArticleDataSource {
-    suspend fun getArticles(page: Int, query: String?, section: String?): NetworkArticleResponse
+    suspend fun getArticles(page: Int, section: String?): ArticleListResponse
 
-    suspend fun getArticleContent(id: String): NetworkContentResponse
+    suspend fun getArticleContent(id: String): ArticleContentResponse
 
-    suspend fun getEditorsPicks(): NetworkEditorsPicksResponse
+    suspend fun getEditorsPicks(): EditorsPicksResponse
 }
