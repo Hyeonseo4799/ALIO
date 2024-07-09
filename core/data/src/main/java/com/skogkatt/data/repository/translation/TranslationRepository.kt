@@ -2,6 +2,6 @@ package com.skogkatt.data.repository.translation
 
 import com.skogkatt.model.translation.Translation
 
-internal interface TranslationRepository {
-    suspend fun translate(body: Translation): String
+interface TranslationRepository {
+    suspend fun translate(body: Translation): List<String>
 }

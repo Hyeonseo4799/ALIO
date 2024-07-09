@@ -8,8 +8,8 @@ import javax.inject.Inject
 internal class TranslationRepositoryImpl @Inject constructor(
     private val translationDataSource: TranslationDataSource
 ): TranslationRepository {
-    override suspend fun translate(body: Translation): String {
+    override suspend fun translate(body: Translation): List<String> {
         return translationDataSource.translate(body.toTranslationRequest())
-            .translations.joinToString { it.text }
+            .translations.map { it.text }
     }
 }

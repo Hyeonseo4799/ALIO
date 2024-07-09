@@ -21,6 +21,7 @@ include(":core:network")
 include(":core:data")
 include(":core:model")
 include(":core:ui")
+include(":core:domain")
 include(":feature:news-feed")
 include(":feature:news-detail")
 
