@@ -1,4 +1,5 @@
 import com.skogkatt.alio.configureComposeAndroid
+import com.skogkatt.alio.libs
 
 plugins {
     id("alio.android.library")
@@ -12,4 +13,10 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+}
+
+dependencies {
+    implementation(project(":core:navigation"))
+
+    implementation(libs.findLibrary("androidx-navigation").get())
 }

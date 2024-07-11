@@ -1,6 +1,5 @@
 package com.skogkatt.news.feed
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,11 +41,25 @@ import kotlin.math.roundToInt
 
 val AppBarHeight = 64.dp
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun NewsFeedRoute(
+    navigateToNewsDetail: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    NewsFeedScreen(
+        editorsPicks = emptyList(), // TODO: UiState로 변경
+        articles = emptyList(), // TODO: UiState로 변경
+        navigateToNewsDetail = navigateToNewsDetail,
+        modifier = modifier,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NewsFeedScreen(
-    editorPicks: List<Article>,
+    editorsPicks: List<Article>,
     articles: List<Article>,
+    navigateToNewsDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val appBarHeightPx = with(LocalDensity.current) { AppBarHeight.roundToPx().toFloat() }
@@ -63,10 +76,10 @@ internal fun NewsFeedScreen(
         }
     }
 
-    val pagerState = rememberPagerState(pageCount = { editorPicks.size })
+    val pagerState = rememberPagerState(pageCount = { editorsPicks.size })
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .nestedScroll(nestedScrollConnection)
             .background(color = Color(0xFFF8F8F8))
@@ -95,13 +108,13 @@ internal fun NewsFeedScreen(
                     pageSize = PageSize.Fill,
                     pageSpacing = 12.dp
                 ) {
-                    val editorPick = editorPicks[it]
+                    val editorsPick = editorsPicks[it]
 
                     EditorPicksCard(
-                        title = editorPick.title,
-                        relativeTime = editorPick.publishedAt,
-                        imageUrl = editorPick.thumbnailUrl,
-                        onClick = { /* TODO: 뉴스 디테일 화면으로 이동 */ },
+                        title = editorsPick.title,
+                        relativeTime = editorsPick.publishedAt,
+                        imageUrl = editorsPick.thumbnailUrl,
+                        onClick = { navigateToNewsDetail(editorsPick.id) },
                     )
                 }
             }
@@ -124,7 +137,7 @@ internal fun NewsFeedScreen(
                     title = article.title,
                     relativeTime = article.publishedAt,
                     imageUrl = article.thumbnailUrl,
-                    onClick = { /* TODO: 뉴스 디테일 화면으로 이동 */ }
+                    onClick = { navigateToNewsDetail(article.id) }
                 )
             }
         }
@@ -164,7 +177,7 @@ internal fun NewsFeedScreen(
 @Preview
 @Composable
 private fun NewsFeedScreenPreview() {
-    val editorPicks = List(5) {
+    val editorsPicks = List(5) {
         Article(
             id = "australia-news/article/2024/jun/18/reserve-bank-leaves-interest-rate-on-hold-at-435-with-borrowers-left-waiting-for-relief",
             sectionId = "australia-news",
@@ -184,6 +197,10 @@ private fun NewsFeedScreenPreview() {
         )
     }
 
-    NewsFeedScreen(editorPicks = editorPicks, articles = articles)
+    NewsFeedScreen(
+        editorsPicks = editorsPicks,
+        articles = articles,
+        navigateToNewsDetail = { },
+    )
 }
 

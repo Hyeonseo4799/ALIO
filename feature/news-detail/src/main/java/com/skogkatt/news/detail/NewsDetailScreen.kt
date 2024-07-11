@@ -18,12 +18,36 @@ import com.skogkatt.model.article.ArticleWithBodyText
 import com.skogkatt.ui.pretendard
 
 @Composable
+fun NewsDetailRoute(
+    id: String,
+    navigateToBack: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    // TODO: UiState로 변경
+    val content = ArticleWithBodyText(
+        id = id,
+        sectionId = "",
+        publishedAt = "",
+        title = "",
+        thumbnailUrl = "",
+        bodyText = "",
+    )
+
+    NewsDetailScreen(
+        content = content,
+        navigateToBack = navigateToBack,
+        modifier = modifier
+    )
+}
+
+@Composable
 internal fun NewsDetailScreen(
     content: ArticleWithBodyText,
+    navigateToBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = Color(0xFFF8F8F8)),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -32,7 +56,7 @@ internal fun NewsDetailScreen(
             HeaderImage(
                 imageUrl = content.thumbnailUrl,
                 relativeTime = content.publishedAt,
-                navigateToBack = { /* TODO: 뒤로가기 */ }
+                navigateToBack = navigateToBack,
             )
         }
 
@@ -121,5 +145,8 @@ private fun NewsDetailScreenPreview() {
         """.trimIndent()
     )
 
-    NewsDetailScreen(content = content)
+    NewsDetailScreen(
+        content = content,
+        navigateToBack = { },
+    )
 }
