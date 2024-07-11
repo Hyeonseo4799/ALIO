@@ -1,16 +1,14 @@
 plugins {
-    id("alio.android.application")
+    id("alio.android.library")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.skogkatt.alio"
+    namespace = "com.skogkatt.navigation"
 
     defaultConfig {
-        applicationId = "com.skogkatt.alio"
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -22,13 +20,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.serialization.json)
 
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:news-feed"))
-    implementation(project(":feature:news-detail"))
-
-    implementation(libs.androidx.navigation)
-    
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
