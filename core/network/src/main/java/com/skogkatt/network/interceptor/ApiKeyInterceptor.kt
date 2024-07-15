@@ -1,46 +1,38 @@
 package com.skogkatt.network.interceptor
 
-import com.skogkatt.network.BuildConfig
+import com.skogkatt.network.api.Api
+import com.skogkatt.network.api.ApiType
 import okhttp3.Interceptor
 import okhttp3.Response
+import retrofit2.Invocation
+import java.io.IOException
 
 internal class ApiKeyInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val host = request.url.host
-        val builder = request.newBuilder()
+        val newBuilder = request.newBuilder()
 
-        when {
-            host.contains("content.guardianapis.com") -> {
+        val apiType = request.tag(Invocation::class.java)
+            ?.method()
+            ?.getAnnotation(Api::class.java)
+            ?.apiType
+            ?: throw IOException("API annotation not found for the request")
+
+        val apiKey = apiType.getApiKey()
+
+        when (apiType) {
+            ApiType.GUARDIAN, ApiType.GOOGLE_TTS -> {
+                val paramName = if (apiType == ApiType.GUARDIAN) "api-key" else "key"
                 val newUrl = request.url.newBuilder()
-                    .addQueryParameter(
-                        name = "api-key",
-                        value = BuildConfig.GUARDIAN_API_KEY
-                    )
+                    .addQueryParameter(name = paramName, value = apiKey)
                     .build()
 
-                builder.url(newUrl)
+                newBuilder.url(newUrl)
             }
 
-            host.contains("api.deepl.com") -> {
-                builder.addHeader(
-                    name = "Authorization",
-                    value = "DeepL-Auth-Key ${BuildConfig.DEEPL_API_KEY}"
-                )
-            }
-
-            host.contains("texttospeech.googleapis.com") -> {
-                val newUrl = request.url.newBuilder()
-                    .addQueryParameter(
-                        name = "key",
-                        value = BuildConfig.GOOGLE_TTS_API_KEY
-                    )
-                    .build()
-
-                builder.url(newUrl)
-            }
+            ApiType.DEEPL -> newBuilder.addHeader(name = "Authorization", value = apiKey)
         }
 
-        return chain.proceed(builder.build())
+        return chain.proceed(newBuilder.build())
     }
 }
