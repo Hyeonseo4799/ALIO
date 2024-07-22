@@ -1,5 +1,6 @@
 plugins {
     id("alio.android.feature")
+    id("alio.android.hilt")
 }
 
 android {
@@ -20,8 +21,14 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:model"))
+    implementation(project(":core:domain"))
 
     implementation(libs.landscapist.glide)
+
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+
+    implementation(libs.hilt.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
