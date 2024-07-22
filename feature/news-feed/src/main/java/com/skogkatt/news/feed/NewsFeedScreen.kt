@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
@@ -20,6 +19,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -35,20 +36,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.skogkatt.model.article.Article
 import com.skogkatt.ui.pretendard
+import kotlinx.coroutines.flow.flowOf
 import kotlin.math.roundToInt
 
-val AppBarHeight = 64.dp
+private val AppBarHeight = 64.dp
 
 @Composable
 fun NewsFeedRoute(
     navigateToNewsDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: NewsFeedViewModel = hiltViewModel()
 ) {
+    val newsFeedUiState by viewModel.newsFeedUiState.collectAsStateWithLifecycle()
+    val latestArticles = viewModel.latestArticles.collectAsLazyPagingItems()
+
+    LaunchedEffect(Unit) {
+        viewModel.refresh()
+    }
+
     NewsFeedScreen(
-        editorsPicks = emptyList(), // TODO: UiState로 변경
-        articles = emptyList(), // TODO: UiState로 변경
+        newsFeedUiState = newsFeedUiState,
+        latestArticles = latestArticles,
         navigateToNewsDetail = navigateToNewsDetail,
         modifier = modifier,
     )
@@ -57,8 +73,8 @@ fun NewsFeedRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun NewsFeedScreen(
-    editorsPicks: List<Article>,
-    articles: List<Article>,
+    newsFeedUiState: NewsFeedUiState,
+    latestArticles: LazyPagingItems<Article>,
     navigateToNewsDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -76,102 +92,118 @@ internal fun NewsFeedScreen(
         }
     }
 
-    val pagerState = rememberPagerState(pageCount = { editorsPicks.size })
+    when (newsFeedUiState) {
+        is NewsFeedUiState.Success -> {
+            val pagerState = rememberPagerState(pageCount = { newsFeedUiState.editorsPicks.size })
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(nestedScrollConnection)
-            .background(color = Color(0xFFF8F8F8))
-    ) {
-        LazyColumn(
-            contentPadding = PaddingValues(top = AppBarHeight),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            item {
-                Text(
-                    text = "에디터 추천",
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .padding(top = 14.dp),
-                    color = Color.Black,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = pretendard,
-                )
-            }
-
-            item {
-                HorizontalPager(
-                    state = pagerState,
-                    contentPadding = PaddingValues(horizontal = 20.dp),
-                    pageSize = PageSize.Fill,
-                    pageSpacing = 12.dp
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .nestedScroll(nestedScrollConnection)
+                    .background(color = Color(0xFFF8F8F8))
+            ) {
+                LazyColumn(
+                    contentPadding = PaddingValues(top = AppBarHeight),
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
-                    val editorsPick = editorsPicks[it]
+                    item {
+                        Text(
+                            text = "에디터 추천",
+                            modifier = Modifier
+                                .padding(horizontal = 20.dp)
+                                .padding(top = 14.dp),
+                            color = Color.Black,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = pretendard,
+                        )
+                    }
 
-                    EditorPicksCard(
-                        title = editorsPick.title,
-                        relativeTime = editorsPick.publishedAt,
-                        imageUrl = editorsPick.thumbnailUrl,
-                        onClick = { navigateToNewsDetail(editorsPick.id) },
-                    )
+                    item {
+                        HorizontalPager(
+                            state = pagerState,
+                            contentPadding = PaddingValues(horizontal = 20.dp),
+                            pageSize = PageSize.Fill,
+                            pageSpacing = 12.dp
+                        ) {
+                            val editorsPick = newsFeedUiState.editorsPicks[it]
+
+                            EditorPicksCard(
+                                title = editorsPick.title,
+                                relativeTime = editorsPick.publishedAt,
+                                imageUrl = editorsPick.thumbnailUrl,
+                                onClick = { navigateToNewsDetail(editorsPick.id) },
+                            )
+                        }
+                    }
+
+                    item {
+                        Text(
+                            text = "최근 뉴스",
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = pretendard,
+                        )
+                    }
+
+                    items(
+                        count = latestArticles.itemCount,
+                        key = latestArticles.itemKey { it.id },
+                    ) {
+                        val latestArticle = latestArticles[it]
+
+                        if (latestArticle != null) {
+                            NewsCard(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 20.dp),
+                                title = latestArticle.title,
+                                relativeTime = latestArticle.publishedAt,
+                                imageUrl = latestArticle.thumbnailUrl,
+                                onClick = { navigateToNewsDetail(latestArticle.id) }
+                            )
+                        }
+                    }
                 }
-            }
-
-            item {
-                Text(
-                    text = "최근 뉴스",
-                    modifier = Modifier.padding(horizontal = 20.dp),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = pretendard,
-                )
-            }
-
-            items(articles) { article ->
-                NewsCard(
+                CenterAlignedTopAppBar(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp),
-                    title = article.title,
-                    relativeTime = article.publishedAt,
-                    imageUrl = article.thumbnailUrl,
-                    onClick = { navigateToNewsDetail(article.id) }
+                        .offset { IntOffset(x = 0, y = appBarOffsetPx.floatValue.roundToInt()) }
+                        .drawBehind {
+                            drawLine(
+                                color = Color.Gray,
+                                start = Offset(x = 0f, y = size.height),
+                                end = Offset(x = size.width, y = size.height),
+                                strokeWidth = 2f
+                            )
+                        },
+                    title = {
+                        // TODO: 아이콘 또는 텍스트 로고로 변경
+                        Text(
+                            text = "ALIO",
+                            color = Color.Black,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = pretendard,
+                        )
+                    },
+                    actions = {
+                        Icon(
+                            modifier = Modifier.padding(end = 20.dp),
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "search",
+                            tint = Color.Gray,
+                        )
+                    }
                 )
             }
         }
-        CenterAlignedTopAppBar(
-            modifier = Modifier
-                .offset { IntOffset(x = 0, y = appBarOffsetPx.floatValue.roundToInt()) }
-                .drawBehind {
-                    drawLine(
-                        color = Color.Gray,
-                        start = Offset(x = 0f, y = size.height),
-                        end = Offset(x = size.width, y = size.height),
-                        strokeWidth = 2f
-                    )
-                },
-            title = {
-                // TODO: 아이콘 또는 텍스트 로고로 변경
-                Text(
-                    text = "ALIO",
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = pretendard,
-                )
-            },
-            actions = {
-                Icon(
-                    modifier = Modifier.padding(end = 20.dp),
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "search",
-                    tint = Color.Gray,
-                )
-            }
-        )
+
+        is NewsFeedUiState.Error -> { /* TODO: 에러 상태 처리 */ }
+
+        NewsFeedUiState.Loading -> { /* TODO: Loading indicator 표시 */ }
     }
+
 }
 
 @Preview
@@ -189,7 +221,7 @@ private fun NewsFeedScreenPreview() {
 
     val articles = List(10) {
         Article(
-            id = "business/article/2024/jun/18/investment-in-uk-has-trailed-other-g7-countries-since-mid-1990s-ippr-says",
+            id = "business/article/2024/jun/18/investment-in-uk-has-trailed-other-g7-countries-since-mid-1990s-ippr-says/$it",
             sectionId = "business",
             publishedAt = "1시간 전",
             title = "영국에 대한 투자는 1990 년대 중반 이후 다른 G7 국가를 뒤쫓고 있다고 IPPR은 말합니다.",
@@ -198,8 +230,8 @@ private fun NewsFeedScreenPreview() {
     }
 
     NewsFeedScreen(
-        editorsPicks = editorsPicks,
-        articles = articles,
+        newsFeedUiState = NewsFeedUiState.Success(editorsPicks = editorsPicks),
+        latestArticles = flowOf(PagingData.from(articles)).collectAsLazyPagingItems(),
         navigateToNewsDetail = { },
     )
 }

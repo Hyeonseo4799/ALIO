@@ -10,12 +10,12 @@ class GetTranslatedEditorsPicksUseCase @Inject constructor(
     private val articleRepository: ArticleRepository,
     private val translationRepository: TranslationRepository,
 ) {
-    suspend operator fun invoke(): List<Article> {
+    suspend operator fun invoke(): Result<List<Article>> = runCatching {
         val editorsPicks = articleRepository.getEditorsPicks()
         val translation = Translation(editorsPicks.map(Article::title))
         val translatedTitles = translationRepository.translate(translation)
 
-        return editorsPicks.zip(translatedTitles) { editorsPick, translatedTitle ->
+        editorsPicks.zip(translatedTitles) { editorsPick, translatedTitle ->
             editorsPick.copy(title = translatedTitle)
         }
     }
