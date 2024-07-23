@@ -30,7 +30,7 @@ internal class ApiKeyInterceptor : Interceptor {
                 newBuilder.url(newUrl)
             }
 
-            ApiType.DEEPL -> newBuilder.addHeader(name = "Authorization", value = apiKey)
+            ApiType.DEEPL -> newBuilder.addHeader(name = "Authorization", value = "DeepL-Auth-Key $apiKey")
         }
 
         return chain.proceed(newBuilder.build())
