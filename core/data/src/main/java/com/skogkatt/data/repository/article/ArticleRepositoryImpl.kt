@@ -28,7 +28,7 @@ internal class ArticleRepositoryImpl @Inject constructor(
                     articleDataSource.getArticles(
                         page = page,
                         section = section,
-                    )
+                    ).response
                 }
             },
         ).flow.map { pagingData ->
@@ -37,10 +37,10 @@ internal class ArticleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getArticleContent(id: String): ArticleWithBodyText {
-        return articleDataSource.getArticleContent(id).articleContent.toArticleWithBodyText()
+        return articleDataSource.getArticleContent(id).response.articleContent.toArticleWithBodyText()
     }
 
     override suspend fun getEditorsPicks(): List<Article> {
-        return articleDataSource.getEditorsPicks().editorsPicks.map { it.toArticle() }
+        return articleDataSource.getEditorsPicks().response.editorsPicks.map { it.toArticle() }
     }
 }

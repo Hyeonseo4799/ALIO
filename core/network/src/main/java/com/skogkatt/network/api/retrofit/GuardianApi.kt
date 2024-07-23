@@ -2,6 +2,7 @@ package com.skogkatt.network.api.retrofit
 
 import com.skogkatt.network.api.Api
 import com.skogkatt.network.api.ApiType
+import com.skogkatt.network.model.Response
 import com.skogkatt.network.model.article.ArticleContentResponse
 import com.skogkatt.network.model.article.ArticleListResponse
 import com.skogkatt.network.model.article.EditorsPicksResponse
@@ -17,14 +18,14 @@ interface GuardianApi {
         @Query("section") section: String?,
         @Query("show-fields") showFields: String = "thumbnail",
         @Query("type") type: String = "article",
-    ): ArticleListResponse
+    ): Response<ArticleListResponse>
 
     @GET("{id}")
     @Api(ApiType.GUARDIAN)
     suspend fun getArticleById(
         @Path("id") id: String,
         @Query("show-fields") showFields: String = "bodyText,thumbnail",
-    ): ArticleContentResponse
+    ): Response<ArticleContentResponse>
 
     @GET("world")
     @Api(ApiType.GUARDIAN)
@@ -32,5 +33,5 @@ interface GuardianApi {
         @Query("show-editors-picks") showEditorsPicks: Boolean = true,
         @Query("show-fields") showFields: String = "thumbnail",
         @Query("type") type: String = "article",
-    ): EditorsPicksResponse
+    ): Response<EditorsPicksResponse>
 }

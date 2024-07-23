@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArticleContentResponse(
-    val articleContent: ArticleWithBodyTextResponse,
+    @SerialName("content") val articleContent: ArticleWithBodyTextResponse,
 )
 
 @Serializable

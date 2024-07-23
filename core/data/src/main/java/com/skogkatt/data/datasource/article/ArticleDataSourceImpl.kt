@@ -1,6 +1,7 @@
 package com.skogkatt.data.datasource.article
 
 import com.skogkatt.network.api.retrofit.GuardianApi
+import com.skogkatt.network.model.Response
 import com.skogkatt.network.model.article.ArticleContentResponse
 import com.skogkatt.network.model.article.ArticleListResponse
 import com.skogkatt.network.model.article.EditorsPicksResponse
@@ -12,18 +13,18 @@ internal class ArticleDataSourceImpl @Inject constructor(
     override suspend fun getArticles(
         page: Int,
         section: String?,
-    ): ArticleListResponse {
+    ): Response<ArticleListResponse> {
         return guardianApi.getArticles(
             page = page,
             section = section
         )
     }
 
-    override suspend fun getArticleContent(id: String): ArticleContentResponse {
+    override suspend fun getArticleContent(id: String): Response<ArticleContentResponse> {
         return guardianApi.getArticleById(id)
     }
 
-    override suspend fun getEditorsPicks(): EditorsPicksResponse {
+    override suspend fun getEditorsPicks(): Response<EditorsPicksResponse> {
         return guardianApi.getEditorsPicks()
     }
 }
