@@ -5,4 +5,6 @@ import com.skogkatt.network.model.translation.TranslationRequest
 
 internal fun Translation.toTranslationRequest() = TranslationRequest(
     texts = texts,
+    sourceLang = "EN",
+    targetLang = "KO",
 )
