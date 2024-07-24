@@ -1,5 +1,6 @@
 plugins {
     id("alio.android.application")
+    id("alio.android.hilt")
 }
 
 android {
