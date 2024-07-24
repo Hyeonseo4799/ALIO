@@ -7,6 +7,7 @@ androidxComposeBom = "2024.06.00"
 androidxNavigation = "2.8.0-beta05"
 kotlinxSerializationJson = "1.7.1"
 kotlin = "2.0.0"
+kotlinDatetime = "0.6.0"
 ktlint = "12.1.1"
 hilt = "2.51.1"
 hiltNavigation = "1.2.0"
@@ -37,6 +38,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinDatetime" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
