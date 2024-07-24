@@ -38,6 +38,14 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideApiKeyInterceptor(): ApiKeyInterceptor = ApiKeyInterceptor()
+
+    @Provides
+    @Singleton
+    fun provideBaseUrlInterceptor(): BaseUrlInterceptor = BaseUrlInterceptor()
+
+    @Provides
+    @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
         json: Json,
