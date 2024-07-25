@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArticleListResponse(
-    @SerialName("currentPage") val currentPage: Int,
+    @SerialName("pageSize") val pageSize: Int,
     @SerialName("results") val articleResponses: List<ArticleResponse>,
 )
