@@ -37,7 +37,7 @@ internal fun HeaderImage(
 ) {
     Box(modifier = modifier) {
         GlideImage(
-            imageModel = { imageUrl },
+            imageModel = { if (imageUrl != "") imageUrl else R.drawable.img_no_image },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(260.dp)

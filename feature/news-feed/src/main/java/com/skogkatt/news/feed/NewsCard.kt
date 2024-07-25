@@ -38,7 +38,7 @@ internal fun NewsCard(
     ) {
         Row {
             GlideImage(
-                imageModel = { imageUrl },
+                imageModel = { if (imageUrl != "") imageUrl else R.drawable.img_no_image },
                 modifier = Modifier.size(width = 140.dp, height = 100.dp),
                 previewPlaceholder = painterResource(id = R.drawable.img_placeholder)
             )
