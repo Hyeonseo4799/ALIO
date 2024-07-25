@@ -17,7 +17,7 @@ internal class ArticlePagingSource(
         return LoadResult.Page(
             data = response.articleResponses,
             prevKey = if (currentPage == StartingPage) null else currentPage - 1,
-            nextKey = if (currentPage >= response.currentPage) null else currentPage + 1,
+            nextKey = if (currentPage >= response.pageSize) null else currentPage + 1,
         )
     }
 

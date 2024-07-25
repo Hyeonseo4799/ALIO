@@ -9,11 +9,11 @@ data class ArticleResponse(
     @SerialName("sectionId") val sectionId: String,
     @SerialName("webPublicationDate") val publishedAt: String,
     @SerialName("webTitle") val title: String,
-    @SerialName("fields") val fields: Fields,
+    @SerialName("fields") val fields: Fields = Fields(),
 ) {
     @Serializable
     data class Fields(
-        @SerialName("thumbnail") val thumbnailUrl: String,
+        @SerialName("thumbnail") val thumbnailUrl: String = "",
     )
 }
 
