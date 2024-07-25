@@ -37,7 +37,7 @@ fun EditorPicksCard(
     ) {
         Box {
             GlideImage(
-                imageModel = { imageUrl },
+                imageModel = { if (imageUrl != "") imageUrl else R.drawable.img_no_image },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp),
