@@ -23,8 +23,8 @@ interface GuardianApi {
     @GET("{id}")
     @Api(ApiType.GUARDIAN)
     suspend fun getArticleById(
-        @Path("id") id: String,
-        @Query("show-fields") showFields: String = "bodyText,thumbnail",
+        @Path("id", encoded = true) id: String,
+        @Query("show-fields", encoded = true) showFields: String = "bodyText,thumbnail",
     ): Response<ArticleContentResponse>
 
     @GET("world")
