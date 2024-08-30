@@ -21,10 +21,13 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:model"))
     implementation(project(":core:domain"))
+    implementation(project(":core:media"))
 
     implementation(libs.landscapist.glide)
 
     implementation(libs.hilt.navigation.compose)
+
+    implementation(libs.androidx.media3.exoplayer)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

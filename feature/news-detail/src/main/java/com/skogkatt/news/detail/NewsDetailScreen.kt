@@ -8,33 +8,39 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skogkatt.model.article.ArticleWithBodyText
 import com.skogkatt.ui.pretendard
+import java.io.File
 
 @Composable
 fun NewsDetailRoute(
     id: String,
     navigateToBack: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: NewsDetailViewModel = hiltViewModel()
 ) {
-    // TODO: UiState로 변경
-    val content = ArticleWithBodyText(
-        id = id,
-        sectionId = "",
-        publishedAt = "",
-        title = "",
-        thumbnailUrl = "",
-        bodyText = "",
-    )
+    val audioFile by viewModel.audioFile.collectAsStateWithLifecycle()
+    val newsDetailUiState by viewModel.newsDetailUiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+//        TODO: 추후 synthesizeLongAudio 로직으로 변경
+        viewModel.getTranslatedArticleContent(id)
+//        viewModel.playSynthesizedAudio(id)
+    }
 
     NewsDetailScreen(
-        content = content,
+        audioFile = audioFile,
+        newsDetailUiState = newsDetailUiState,
         navigateToBack = navigateToBack,
         modifier = modifier
     )
@@ -42,49 +48,60 @@ fun NewsDetailRoute(
 
 @Composable
 internal fun NewsDetailScreen(
-    content: ArticleWithBodyText,
+    audioFile: File?,
+    newsDetailUiState: NewsDetailUiState,
     navigateToBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = Color(0xFFF8F8F8)),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        item {
-            HeaderImage(
-                imageUrl = content.thumbnailUrl,
-                relativeTime = content.publishedAt,
-                navigateToBack = navigateToBack,
-            )
+    when (newsDetailUiState) {
+        is NewsDetailUiState.Success -> {
+            val content = newsDetailUiState.articleWithBodyText
+
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(color = Color(0xFFF8F8F8)),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                item {
+                    HeaderImage(
+                        imageUrl = content.thumbnailUrl,
+                        relativeTime = content.publishedAt,
+                        navigateToBack = navigateToBack,
+                    )
+                }
+
+                item {
+                    Text(
+                        text = content.title,
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                        color = Color.Black,
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = pretendard,
+                    )
+                }
+
+                val paragraphs = content.bodyText.split("\n\n")
+
+                items(paragraphs) { paragraph ->
+                    Text(
+                        text = paragraph,
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = pretendard,
+                        lineHeight = 28.sp,
+                    )
+                }
+            }
         }
 
-        item {
-            Text(
-                text = content.title,
-                modifier = Modifier.padding(horizontal = 20.dp),
-                color = Color.Black,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold,
-                fontFamily = pretendard,
-            )
-        }
-
-        val paragraphs = content.bodyText.split("\n\n")
-
-        items(paragraphs) { paragraph ->
-            Text(
-                text = paragraph,
-                modifier = Modifier.padding(horizontal = 20.dp),
-                color = Color.Black,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                fontFamily = pretendard,
-                lineHeight = 28.sp,
-            )
-        }
+        is NewsDetailUiState.Error -> { }
+        NewsDetailUiState.Loading -> { }
     }
+
 }
 
 @Preview
@@ -146,7 +163,8 @@ private fun NewsDetailScreenPreview() {
     )
 
     NewsDetailScreen(
-        content = content,
+        audioFile = null,
+        newsDetailUiState = NewsDetailUiState.Success(articleWithBodyText = content),
         navigateToBack = { },
     )
 }

@@ -15,6 +15,14 @@ class GetTranslatedArticleContentUseCase @Inject constructor(
         val translation = Translation(listOf(articleContent.title, articleContent.bodyText))
         val (translatedTitle, translatedBodyText) = translationRepository.translate(translation)
 
-        articleContent.copy(title = translatedTitle, bodyText = translatedBodyText)
+        // TODO: 문장 개행 로직 수정
+        val regex = Regex("""\.(?=")|\.""")
+
+        articleContent.copy(
+            title = translatedTitle,
+            bodyText = translatedBodyText.replace(regex) {
+                if (it.value == ".\"") ".\"\n\n" else ".\n\n"
+            }
+        )
     }
 }
