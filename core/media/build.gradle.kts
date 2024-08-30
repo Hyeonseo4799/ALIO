@@ -1,11 +1,13 @@
 plugins {
-    id("alio.android.feature")
+    id("alio.android.library")
+    id("alio.android.hilt")
 }
 
 android {
-    namespace = "com.skogkatt.news.detail"
+    namespace = "com.skogkatt.media"
 
     defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -18,14 +20,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
-    implementation(project(":core:model"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:media"))
-
-    implementation(libs.landscapist.glide)
-
-    implementation(libs.hilt.navigation.compose)
 
     implementation(libs.androidx.media3.exoplayer)
 

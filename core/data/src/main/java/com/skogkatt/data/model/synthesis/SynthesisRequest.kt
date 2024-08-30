@@ -8,6 +8,6 @@ import com.skogkatt.network.model.synthesis.Voice
 
 internal fun Synthesis.toSynthesisRequest() = SynthesisRequest(
     input = Input(text = text),
-    voice = Voice(name = voice),
-    audioConfig = AudioConfig(),
+    voice = Voice(langCode = "ko-KR", name = voice),
+    audioConfig = AudioConfig(audioEncoding = "MP3"),
 )

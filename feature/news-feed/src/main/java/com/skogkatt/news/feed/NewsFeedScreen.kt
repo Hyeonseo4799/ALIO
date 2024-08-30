@@ -13,6 +13,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -144,6 +146,22 @@ internal fun NewsFeedScreen(
                         )
                     }
 
+                    item {
+                        if (latestArticles.itemCount == 0) {
+                            Box(
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.Center)
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                )
+                            }
+
+                        }
+                    }
+
                     items(
                         count = latestArticles.itemCount,
                         key = latestArticles.itemKey { it.id },
@@ -163,6 +181,7 @@ internal fun NewsFeedScreen(
                         }
                     }
                 }
+
                 CenterAlignedTopAppBar(
                     modifier = Modifier
                         .offset { IntOffset(x = 0, y = appBarOffsetPx.floatValue.roundToInt()) }
@@ -188,9 +207,11 @@ internal fun NewsFeedScreen(
             }
         }
 
-        is NewsFeedUiState.Error -> { /* TODO: 에러 상태 처리 */ }
+        is NewsFeedUiState.Error -> { /* TODO: 에러 상태 처리 */
+        }
 
-        NewsFeedUiState.Loading -> { /* TODO: Loading indicator 표시 */ }
+        NewsFeedUiState.Loading -> { /* TODO: Loading indicator 표시 */
+        }
     }
 
 }

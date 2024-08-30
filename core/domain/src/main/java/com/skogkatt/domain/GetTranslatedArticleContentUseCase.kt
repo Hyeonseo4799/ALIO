@@ -10,11 +10,19 @@ class GetTranslatedArticleContentUseCase @Inject constructor(
     private val articleRepository: ArticleRepository,
     private val translationRepository: TranslationRepository,
 ) {
-    suspend operator fun invoke(id: String): ArticleWithBodyText {
+    suspend operator fun invoke(id: String): Result<ArticleWithBodyText> = runCatching {
         val articleContent = articleRepository.getArticleContent(id)
-        val translation = Translation(listOf(articleContent.bodyText))
-        val translatedBodyText = translationRepository.translate(translation).joinToString()
+        val translation = Translation(listOf(articleContent.title, articleContent.bodyText))
+        val (translatedTitle, translatedBodyText) = translationRepository.translate(translation)
 
-        return articleContent.copy(bodyText = translatedBodyText)
+        // TODO: 문장 개행 로직 수정
+        val regex = Regex("""\.(?=")|\.""")
+
+        articleContent.copy(
+            title = translatedTitle,
+            bodyText = translatedBodyText.replace(regex) {
+                if (it.value == ".\"") ".\"\n\n" else ".\n\n"
+            }
+        )
     }
 }
