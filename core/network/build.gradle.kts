@@ -10,23 +10,12 @@ android {
     namespace = "com.skogkatt.network"
 
     defaultConfig {
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-
         buildConfigField("String", "GUARDIAN_BASE_URL", getSecretsProperty("GUARDIAN_BASE_URL"))
         buildConfigField("String", "DEEPL_BASE_URL", getSecretsProperty("DEEPL_BASE_URL"))
         buildConfigField("String", "GOOGLE_TTS_BASE_URL", getSecretsProperty("GOOGLE_TTS_BASE_URL"))
         buildConfigField("String", "GUARDIAN_API_KEY", getSecretsProperty("GUARDIAN_API_KEY"))
         buildConfigField("String", "DEEPL_API_KEY", getSecretsProperty("DEEPL_API_KEY"))
         buildConfigField("String", "GOOGLE_TTS_API_KEY", getSecretsProperty("GOOGLE_TTS_API_KEY"))
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
     }
     buildFeatures {
         buildConfig = true

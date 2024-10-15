@@ -1,6 +1,5 @@
 plugins {
     id("alio.android.application")
-    id("alio.android.hilt")
 }
 
 android {
@@ -10,15 +9,6 @@ android {
         applicationId = "com.skogkatt.alio"
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
     }
 }
 
