@@ -1,6 +1,5 @@
 plugins {
     id("alio.android.feature")
-    id("alio.android.hilt")
 }
 
 android {
