@@ -9,14 +9,13 @@ plugins {
 
 android {
     configureComposeAndroid(this)
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 }
 
 dependencies {
     implementation(project(":core:navigation"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
 
     implementation(libs.findLibrary("androidx-navigation").get())
 }

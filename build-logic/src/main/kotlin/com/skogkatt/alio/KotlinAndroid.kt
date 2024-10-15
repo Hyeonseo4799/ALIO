@@ -13,11 +13,22 @@ internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension<*, 
 
         defaultConfig {
             minSdk = 24
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        buildTypes {
+            getByName("release") {
+                isMinifyEnabled = false
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+            }
         }
 
         tasks.withType<KotlinCompile>().configureEach {

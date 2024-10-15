@@ -4,23 +4,9 @@ plugins {
 
 android {
     namespace = "com.skogkatt.news.detail"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
 }
 
 dependencies {
-    implementation(project(":core:ui"))
-    implementation(project(":core:model"))
-    implementation(project(":core:domain"))
     implementation(project(":core:media"))
 
     implementation(libs.landscapist.glide)
