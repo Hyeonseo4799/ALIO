@@ -10,3 +10,6 @@ val pretendard = FontFamily(
     Font(R.font.pretendard_bold, FontWeight.Bold)
 )
 
+val farnhamHeadline = FontFamily(
+    Font(R.font.farnham_headline_semibold, FontWeight.SemiBold)
+)

@@ -42,6 +42,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.skogkatt.model.article.Article
+import com.skogkatt.ui.farnhamHeadline
 import com.skogkatt.ui.pretendard
 import kotlinx.coroutines.flow.flowOf
 import kotlin.math.roundToInt
@@ -194,13 +195,12 @@ internal fun NewsFeedScreen(
                             )
                         },
                     title = {
-                        // TODO: 아이콘 또는 텍스트 로고로 변경
                         Text(
-                            text = "ALIO",
+                            text = "alio",
                             color = Color.Black,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Medium,
-                            fontFamily = pretendard,
+                            fontSize = 28.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = farnhamHeadline,
                         )
                     }
                 )
