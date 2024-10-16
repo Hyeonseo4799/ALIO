@@ -9,4 +9,5 @@ dependencies {
     implementation(libs.hilt.gradlePlugin)
     implementation(libs.ksp.gradlePlugin)
     implementation(libs.compose.compiler.gradlePlugin)
+    implementation(libs.detekt.gradlePlugin)
 }

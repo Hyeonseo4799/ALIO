@@ -1,0 +1,146 @@
+build:
+  maxIssues: 0 # 특정 임계값에 도달하면 빌드 실패
+
+config:
+  validation: true # 구성 파일, 퍼스트 파티 rule sets, rules 및 구성 옵션 유효한지 확인
+  warningsAsErrors: true # 유효하지 않거나 deprecated된 rules 및 구성 옵션을 에러로 설정
+
+complexity:
+  active: true
+  ComplexCondition: # 복잡한 조건문 설정
+    active: true
+    threshold: 5
+  ComplexInterface: # 많은 함수 및 속성을 포함하는 인터페이스
+    active: true
+    threshold: 10
+    includeStaticDeclarations: false
+    includePrivateDeclarations: false
+  CyclomaticComplexMethod: # 복잡한 메서드 설정
+    active: true
+    threshold: 50
+    ignoreSingleWhenExpression: false # when 표현식 하나인 메서드 무시
+    ignoreSimpleWhenEntries: false # 간단한 항목(중괄호 없음) 무시
+    ignoreNestingFunctions: false # if 나 for 문 대신 자주 사용되는 함수 무시
+    nestingFunctions:
+      - 'also'
+      - 'apply'
+      - 'forEach'
+      - 'isNotNull'
+      - 'ifNull'
+      - 'let'
+      - 'run'
+      - 'use'
+      - 'with'
+  LargeClass: # 큰 클래스 크기 설정
+    active: true
+    threshold: 1000
+  LongMethod: # 긴 메서드 길이 설정
+    active: true
+    threshold: 400
+  LongParameterList: # 특정 임계값보다 많은 매개변수가 있는 함수와 생성자
+    active: false
+  NestedBlockDepth: # 함수에서 과도한 중첩 depth 설정
+    active: true
+    threshold: 10
+  TooManyFunctions:
+    active: true
+    thresholdInFiles: 100
+    thresholdInClasses: 100
+    thresholdInInterfaces: 100
+    thresholdInObjects: 100
+    thresholdInEnums: 100
+    ignoreDeprecated: false # @Deprecated 함수를 포함
+    ignorePrivate: false # private 접근 제어자 함수 포함
+    ignoreOverridden: false # override 한 함수 포함
+
+coroutines:
+  active: true
+  RedundantSuspendModifier: # 불필요한 suspend modifier 설정
+    active: false
+  SleepInsteadOfDelay: # suspend fun 내부에서 Thread.sleep 설정
+    active: false
+  SuspendFunWithFlowReturnType: # suspend로 표시된 flow 반환 함수 설정
+    active: false
+
+empty-blocks:
+  active: true
+
+exceptions:
+  active: true
+  InstanceOfCheckForException: # 예외 유형을 검사하는 catch 블록
+    active: false
+  SwallowedException: # 예외가 포착되어 올바르게 전달되지 않은 인스턴스
+    active: true
+    ignoredExceptionTypes:
+      - 'InterruptedException'
+      - 'MalformedURLException'
+      - 'NumberFormatException'
+      - 'ParseException'
+      - 'PendingIntent.CanceledException'
+      - 'Exception'
+  TooGenericExceptionThrown: # 너무 일반적인 유형의 Exception
+    active: false
+    exceptionNames:
+      - 'Error'
+      - 'Exception'
+      - 'RuntimeException'
+      - 'Throwable'
+
+formatting:
+  active: true
+  android: true
+  AnnotationOnSeparateLine: # 여러 annotation을 개별 line에 작성
+    active: false
+  AnnotationSpacing: # annotation 다음 한 줄 개행만 사용
+    active: false
+  ArgumentListWrapping: # 모든 arguments는 한 줄에 적거나, 개별 line에 작성
+    active: false
+  ChainWrapping: # ., ?., ?: 은 다음 줄에 작성
+    active: false
+  CommentSpacing: # 줄 끝 주석 기호 앞 뒤에 정확히 공백 한 칸 설정
+    active: false
+  EnumEntryNameCase: # enum 항목 이름은 대문자 밑줄이나 카멜 케이스로 설정
+    active: false
+  Filename: # 하나의 type alias나 객체 선언, 클래스가 있으면 해당 요소로 이름 설정
+    active: false
+  FinalNewline: # 각 파일의 끝에 줄바꿈 문자를 사용
+    active: false
+  ImportOrdering: # import가 일관되게 정렬되도록 설정
+    active: false
+  Indentation: # 연속 들여쓰기 없이 editor의 indent_size를 사용
+    active: false
+  MaximumLineLength: # 한 줄에 적을 수 있는 코드 길이 설정
+    active: true
+    maxLineLength: 160
+  ParameterListWrapping: # 한 줄에 적을 수 잇는 파라미터 길이 설정
+    active: true
+    maxLineLength: 160
+  Wrapping: # 누락된 줄 바꿈 설정
+    active: true
+    maxLineLength: 160
+  SpacingAroundDoubleColon: # ::의 주위에 여백이 없도록 설정
+    active: false
+  NoWildcardImports: # *를 통한 import 설정
+    active: false
+  NoTrailingSpaces: # trailing spaces 공간 설정
+    active: false
+
+naming:
+  active: true
+  ConstructorParameterNaming: # 지정된 명명 규칙을 따르지 않는 생성자 매개변수
+    active: false
+  FunctionNaming: # 지정된 명명 규칙을 따르지 않는 함수 이름
+    active: false
+  TopLevelPropertyNaming: # 지정된 명명 규칙을 따르지 않는 최상위 상수
+    active: false
+
+
+performance:
+  active: true
+  ForEachOnRange: # 성능 비용이 발생하는 forEach 구문
+    active: false
+  SpreadOperator: # 성능 저하 발생하는 spread 연산자
+    active: false
+
+style:
+  active: false
