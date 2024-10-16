@@ -2,14 +2,17 @@ package com.skogkatt.news.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -20,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skogkatt.model.article.ArticleWithBodyText
 import com.skogkatt.ui.pretendard
-import java.io.File
 
 @Composable
 fun NewsDetailRoute(
@@ -29,17 +31,13 @@ fun NewsDetailRoute(
     modifier: Modifier = Modifier,
     viewModel: NewsDetailViewModel = hiltViewModel()
 ) {
-    val audioFile by viewModel.audioFile.collectAsStateWithLifecycle()
     val newsDetailUiState by viewModel.newsDetailUiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-//        TODO: 추후 synthesizeLongAudio 로직으로 변경
-        viewModel.getTranslatedArticleContent(id)
-//        viewModel.playSynthesizedAudio(id)
+        viewModel.refresh(id)
     }
 
     NewsDetailScreen(
-        audioFile = audioFile,
         newsDetailUiState = newsDetailUiState,
         navigateToBack = navigateToBack,
         modifier = modifier
@@ -48,7 +46,6 @@ fun NewsDetailRoute(
 
 @Composable
 internal fun NewsDetailScreen(
-    audioFile: File?,
     newsDetailUiState: NewsDetailUiState,
     navigateToBack: () -> Unit,
     modifier: Modifier = Modifier,
@@ -99,7 +96,15 @@ internal fun NewsDetailScreen(
         }
 
         is NewsDetailUiState.Error -> { }
-        NewsDetailUiState.Loading -> { }
+        NewsDetailUiState.Loading -> {
+            Box(
+                modifier = modifier.fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }
     }
 }
 
@@ -162,7 +167,7 @@ private fun NewsDetailScreenPreview() {
     )
 
     NewsDetailScreen(
-        audioFile = null,
+//        audioFile = null,
         newsDetailUiState = NewsDetailUiState.Success(articleWithBodyText = content),
         navigateToBack = { },
     )
