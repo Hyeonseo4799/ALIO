@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.skogkatt.model.article.ArticleWithBodyText
+import com.skogkatt.news.detail.component.HeaderImage
 import com.skogkatt.ui.pretendard
 
 @Composable
