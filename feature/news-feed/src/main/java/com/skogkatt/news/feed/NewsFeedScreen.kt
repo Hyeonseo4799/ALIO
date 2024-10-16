@@ -159,7 +159,6 @@ internal fun NewsFeedScreen(
                                         .align(Alignment.Center)
                                 )
                             }
-
                         }
                     }
 
@@ -207,13 +206,14 @@ internal fun NewsFeedScreen(
             }
         }
 
-        is NewsFeedUiState.Error -> { /* TODO: 에러 상태 처리 */
+        is NewsFeedUiState.Error -> {
+            /* TODO: 에러 상태 처리 */
         }
 
-        NewsFeedUiState.Loading -> { /* TODO: Loading indicator 표시 */
+        NewsFeedUiState.Loading -> {
+            /* TODO: Loading indicator 표시 */
         }
     }
-
 }
 
 @Preview
@@ -245,4 +245,3 @@ private fun NewsFeedScreenPreview() {
         navigateToNewsDetail = { },
     )
 }
-

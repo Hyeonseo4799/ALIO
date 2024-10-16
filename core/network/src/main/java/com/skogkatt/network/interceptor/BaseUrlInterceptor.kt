@@ -7,7 +7,7 @@ import okhttp3.Response
 import retrofit2.Invocation
 import java.io.IOException
 
-internal class BaseUrlInterceptor: Interceptor {
+internal class BaseUrlInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 

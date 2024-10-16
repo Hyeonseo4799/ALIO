@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 internal class ArticleRepositoryImpl @Inject constructor(
     private val articleDataSource: ArticleDataSource
-): ArticleRepository {
+) : ArticleRepository {
     override fun getArticles(section: String?): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(

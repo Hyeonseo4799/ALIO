@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 internal class SynthesisDataSourceImpl @Inject constructor(
     private val googleTTSApi: GoogleTTSApi
-): SynthesisDataSource {
+) : SynthesisDataSource {
     override suspend fun synthesize(body: SynthesisRequest): String {
         return googleTTSApi.synthesize(body)
     }

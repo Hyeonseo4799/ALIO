@@ -9,4 +9,3 @@ data class TranslationRequest(
     @SerialName("source_lang") val sourceLang: String,
     @SerialName("target_lang") val targetLang: String,
 )
-
