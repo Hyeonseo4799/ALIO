@@ -12,6 +12,6 @@ internal class SynthesisRepositoryImpl @Inject constructor(
     override suspend fun synthesize(body: Synthesis): ByteArray {
         val result = synthesisDataSource.synthesize(body.toSynthesisRequest())
         
-        return Base64.decode(result, Base64.DEFAULT)
+        return Base64.decode(result.audioContent, Base64.DEFAULT)
     }
 }
