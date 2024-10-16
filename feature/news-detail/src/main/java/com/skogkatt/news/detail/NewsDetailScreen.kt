@@ -101,7 +101,6 @@ internal fun NewsDetailScreen(
         is NewsDetailUiState.Error -> { }
         NewsDetailUiState.Loading -> { }
     }
-
 }
 
 @Preview

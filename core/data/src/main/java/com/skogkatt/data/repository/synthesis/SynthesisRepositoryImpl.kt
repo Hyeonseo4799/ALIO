@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 internal class SynthesisRepositoryImpl @Inject constructor(
     private val synthesisDataSource: SynthesisDataSource
-): SynthesisRepository {
+) : SynthesisRepository {
     override suspend fun synthesize(body: Synthesis): ByteArray {
         val result = synthesisDataSource.synthesize(body.toSynthesisRequest())
         

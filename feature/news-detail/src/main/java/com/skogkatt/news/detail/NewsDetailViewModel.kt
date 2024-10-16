@@ -1,11 +1,7 @@
 package com.skogkatt.news.detail
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
 import com.skogkatt.domain.GetTranslatedArticleContentUseCase
-import com.skogkatt.domain.SynthesizeContentToFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

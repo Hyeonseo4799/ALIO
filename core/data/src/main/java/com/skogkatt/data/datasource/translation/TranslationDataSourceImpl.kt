@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 internal class TranslationDataSourceImpl @Inject constructor(
     private val deepLApi: DeepLApi
-): TranslationDataSource {
+) : TranslationDataSource {
     override suspend fun translate(body: TranslationRequest): TranslationResponse {
         return deepLApi.translate(body)
     }

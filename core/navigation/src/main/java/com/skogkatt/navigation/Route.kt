@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
-    data object NewsFeed: Route
+    data object NewsFeed : Route
 
     @Serializable
-    data class NewsDetail(val id: String): Route
+    data class NewsDetail(val id: String) : Route
 }

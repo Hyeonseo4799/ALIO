@@ -16,4 +16,3 @@ data class ArticleResponse(
         @SerialName("thumbnail") val thumbnailUrl: String = "",
     )
 }
-
