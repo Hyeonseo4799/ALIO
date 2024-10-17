@@ -3,7 +3,6 @@ package com.skogkatt.news.detail
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.skogkatt.model.article.ArticleWithBodyText
 
-
 internal class NewsDetailPreviewParameterProvider : PreviewParameterProvider<NewsDetailUiState> {
     override val values = sequenceOf(
         NewsDetailUiState(
