@@ -15,15 +15,13 @@ class SynthesizeArticleContentUseCase @Inject constructor(
         articleWithBodyText: ArticleWithBodyText,
         voice: String = "ko-KR-Neural2-B"
     ): Result<List<ByteArray>> = runCatching {
-//        return getTranslatedArticleContentUseCase(id).mapCatching { articleContent ->
-            val texts = articleWithBodyText.bodyText.split("\n\n")
-            val results = coroutineScope {
-                texts.map { text ->
-                    val synthesis = Synthesis(text = text, voice = voice)
-                    async { synthesisRepository.synthesize(synthesis) }
-                }
+        val texts = articleWithBodyText.bodyText.split("\n\n")
+        val results = coroutineScope {
+            texts.map { text ->
+                val synthesis = Synthesis(text = text, voice = voice)
+                async { synthesisRepository.synthesize(synthesis) }
             }
-            results.awaitAll()
-//        }
+        }
+        results.awaitAll()
     }
 }
