@@ -17,7 +17,7 @@ import javax.inject.Inject
 class NewsDetailViewModel @Inject constructor(
     private val getTranslatedArticleContentUseCase: GetTranslatedArticleContentUseCase,
     private val synthesizeContentToFileUseCase: SynthesizeContentToFileUseCase,
-    private val exoPlayer: ExoPlayer,
+    val exoPlayer: ExoPlayer,
 ) : ContainerHost<NewsDetailUiState, NewsDetailSideEffect>, ViewModel() {
     override val container = container<NewsDetailUiState, NewsDetailSideEffect>(NewsDetailUiState())
 
