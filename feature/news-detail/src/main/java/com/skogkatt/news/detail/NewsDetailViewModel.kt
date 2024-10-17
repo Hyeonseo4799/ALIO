@@ -23,9 +23,8 @@ class NewsDetailViewModel @Inject constructor(
 
     fun refresh(id: String) = intent {
         reduce { state.copy(isLoading = true) }
-        getTranslatedArticleContent(id)
         playSynthesizedAudio(id)
-        reduce { state.copy(isLoading = false) }
+        getTranslatedArticleContent(id)
     }
 
     private fun playSynthesizedAudio(id: String) = intent {
@@ -39,6 +38,7 @@ class NewsDetailViewModel @Inject constructor(
                     exoPlayer.setMediaItems(mediaItems)
                     exoPlayer.prepare()
                     exoPlayer.play()
+                    reduce { state.copy(isLoading = false) }
                 }
             }
             .onFailure {
