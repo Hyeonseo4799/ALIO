@@ -13,13 +13,15 @@ fun NavController.navigateToNewsDetail(id: String) {
 
 fun NavGraphBuilder.newsDetailScreen(
     navigateToBack: () -> Unit,
+    showSnackbar: (String?) -> Unit,
 ) {
     composable<Route.NewsDetail> { navBackStackEntry ->
         val id = navBackStackEntry.toRoute<Route.NewsDetail>().id
 
         NewsDetailRoute(
             id = id,
-            navigateToBack = navigateToBack
+            navigateToBack = navigateToBack,
+            showSnackbar = showSnackbar
         )
     }
 }

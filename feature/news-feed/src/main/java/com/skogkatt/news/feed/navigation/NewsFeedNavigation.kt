@@ -7,8 +7,12 @@ import com.skogkatt.news.feed.NewsFeedRoute
 
 fun NavGraphBuilder.newsFeedScreen(
     navigateToNewsDetail: (String) -> Unit,
+    showSnackbar: (String?) -> Unit
 ) {
     composable<Route.NewsFeed> {
-        NewsFeedRoute(navigateToNewsDetail = navigateToNewsDetail)
+        NewsFeedRoute(
+            navigateToNewsDetail = navigateToNewsDetail,
+            showSnackbar = showSnackbar
+        )
     }
 }

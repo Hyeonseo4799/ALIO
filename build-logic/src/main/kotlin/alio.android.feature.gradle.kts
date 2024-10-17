@@ -18,4 +18,7 @@ dependencies {
     implementation(project(":core:model"))
 
     implementation(libs.findLibrary("androidx-navigation").get())
+
+    implementation(libs.findLibrary("orbit-viewmodel").get())
+    implementation(libs.findLibrary("orbit-compose").get())
 }

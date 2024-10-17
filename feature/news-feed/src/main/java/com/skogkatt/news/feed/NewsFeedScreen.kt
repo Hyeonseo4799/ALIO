@@ -36,15 +36,18 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.skogkatt.model.article.Article
+import com.skogkatt.news.feed.component.EditorPicksCard
+import com.skogkatt.news.feed.component.NewsCard
 import com.skogkatt.ui.farnhamHeadline
 import com.skogkatt.ui.pretendard
 import kotlinx.coroutines.flow.flowOf
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import kotlin.math.roundToInt
 
 private val AppBarHeight = 64.dp
@@ -53,10 +56,17 @@ private val AppBarHeight = 64.dp
 fun NewsFeedRoute(
     navigateToNewsDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: NewsFeedViewModel = hiltViewModel()
+    viewModel: NewsFeedViewModel = hiltViewModel(),
+    showSnackbar: (String?) -> Unit,
 ) {
-    val newsFeedUiState by viewModel.newsFeedUiState.collectAsStateWithLifecycle()
-    val latestArticles = viewModel.latestArticles.collectAsLazyPagingItems()
+    val newsFeedUiState by viewModel.collectAsState()
+    val latestArticles = newsFeedUiState.latestArticles.collectAsLazyPagingItems()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is NewsFeedSideEffect.ShowSnackbar -> showSnackbar(sideEffect.error)
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.refresh()
@@ -92,127 +102,118 @@ internal fun NewsFeedScreen(
         }
     }
 
-    when (newsFeedUiState) {
-        is NewsFeedUiState.Success -> {
-            val pagerState = rememberPagerState(pageCount = { newsFeedUiState.editorsPicks.size })
+    val pagerState = rememberPagerState(pageCount = { newsFeedUiState.editorsPicks.size })
 
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .nestedScroll(nestedScrollConnection)
-                    .background(color = Color(0xFFF8F8F8))
-            ) {
-                LazyColumn(
-                    contentPadding = PaddingValues(top = AppBarHeight),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
-                    item {
-                        Text(
-                            text = "에디터 추천",
-                            modifier = Modifier
-                                .padding(horizontal = 20.dp)
-                                .padding(top = 14.dp),
-                            color = Color.Black,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = pretendard,
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .nestedScroll(nestedScrollConnection)
+            .background(color = Color(0xFFF8F8F8))
+    ) {
+        LazyColumn(
+            contentPadding = PaddingValues(top = AppBarHeight),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            item {
+                Text(
+                    text = "에디터 추천",
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .padding(top = 14.dp),
+                    color = Color.Black,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = pretendard,
+                )
+            }
+
+            item {
+                if (newsFeedUiState.editorsPicks.isEmpty()) {
+                    Box(modifier = modifier.fillMaxWidth()) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
                         )
-                    }
-
-                    item {
-                        HorizontalPager(
-                            state = pagerState,
-                            contentPadding = PaddingValues(horizontal = 20.dp),
-                            pageSize = PageSize.Fill,
-                            pageSpacing = 12.dp
-                        ) {
-                            val editorsPick = newsFeedUiState.editorsPicks[it]
-
-                            EditorPicksCard(
-                                title = editorsPick.title,
-                                relativeTime = editorsPick.publishedAt,
-                                imageUrl = editorsPick.thumbnailUrl,
-                                onClick = { navigateToNewsDetail(editorsPick.id) },
-                            )
-                        }
-                    }
-
-                    item {
-                        Text(
-                            text = "최근 뉴스",
-                            modifier = Modifier.padding(horizontal = 20.dp),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = pretendard,
-                        )
-                    }
-
-                    item {
-                        if (latestArticles.itemCount == 0) {
-                            Box(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .align(Alignment.Center)
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .align(Alignment.Center)
-                                )
-                            }
-                        }
-                    }
-
-                    items(
-                        count = latestArticles.itemCount,
-                        key = latestArticles.itemKey { it.id },
-                    ) {
-                        val latestArticle = latestArticles[it]
-
-                        if (latestArticle != null) {
-                            NewsCard(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 20.dp),
-                                title = latestArticle.title,
-                                relativeTime = latestArticle.publishedAt,
-                                imageUrl = latestArticle.thumbnailUrl,
-                                onClick = { navigateToNewsDetail(latestArticle.id) }
-                            )
-                        }
                     }
                 }
 
-                CenterAlignedTopAppBar(
-                    modifier = Modifier
-                        .offset { IntOffset(x = 0, y = appBarOffsetPx.floatValue.roundToInt()) }
-                        .drawBehind {
-                            drawLine(
-                                color = Color.Gray,
-                                start = Offset(x = 0f, y = size.height),
-                                end = Offset(x = size.width, y = size.height),
-                                strokeWidth = 2f
-                            )
-                        },
-                    title = {
-                        Text(
-                            text = "alio",
-                            color = Color.Black,
-                            fontSize = 28.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            fontFamily = farnhamHeadline,
+                HorizontalPager(
+                    state = pagerState,
+                    contentPadding = PaddingValues(horizontal = 20.dp),
+                    pageSize = PageSize.Fill,
+                    pageSpacing = 12.dp
+                ) {
+                    val editorsPick = newsFeedUiState.editorsPicks[it]
+
+                    EditorPicksCard(
+                        title = editorsPick.title,
+                        relativeTime = editorsPick.publishedAt,
+                        imageUrl = editorsPick.thumbnailUrl,
+                        onClick = { navigateToNewsDetail(editorsPick.id) },
+                    )
+                }
+            }
+
+            item {
+                Text(
+                    text = "최근 뉴스",
+                    modifier = Modifier.padding(horizontal = 20.dp),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = pretendard,
+                )
+            }
+
+            item {
+                if (latestArticles.itemCount == 0) {
+                    Box(modifier = modifier.fillMaxWidth()) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                )
+                }
+            }
+
+            items(
+                count = latestArticles.itemCount,
+                key = latestArticles.itemKey { it.id },
+            ) {
+                val latestArticle = latestArticles[it]
+
+                if (latestArticle != null) {
+                    NewsCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
+                        title = latestArticle.title,
+                        relativeTime = latestArticle.publishedAt,
+                        imageUrl = latestArticle.thumbnailUrl,
+                        onClick = { navigateToNewsDetail(latestArticle.id) }
+                    )
+                }
             }
         }
 
-        is NewsFeedUiState.Error -> {
-            /* TODO: 에러 상태 처리 */
-        }
-
-        NewsFeedUiState.Loading -> {
-            /* TODO: Loading indicator 표시 */
-        }
+        CenterAlignedTopAppBar(
+            modifier = Modifier
+                .offset { IntOffset(x = 0, y = appBarOffsetPx.floatValue.roundToInt()) }
+                .drawBehind {
+                    drawLine(
+                        color = Color.Gray,
+                        start = Offset(x = 0f, y = size.height),
+                        end = Offset(x = size.width, y = size.height),
+                        strokeWidth = 2f
+                    )
+                },
+            title = {
+                Text(
+                    text = "alio",
+                    color = Color.Black,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = farnhamHeadline,
+                )
+            }
+        )
     }
 }
 
@@ -240,7 +241,7 @@ private fun NewsFeedScreenPreview() {
     }
 
     NewsFeedScreen(
-        newsFeedUiState = NewsFeedUiState.Success(editorsPicks = editorsPicks),
+        newsFeedUiState = NewsFeedUiState(editorsPicks = editorsPicks),
         latestArticles = flowOf(PagingData.from(articles)).collectAsLazyPagingItems(),
         navigateToNewsDetail = { },
     )

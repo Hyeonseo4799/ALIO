@@ -2,16 +2,15 @@ package com.skogkatt.news.detail
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.skogkatt.domain.GetTranslatedArticleContentUseCase
 import com.skogkatt.domain.SynthesizeContentToFileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,40 +18,43 @@ class NewsDetailViewModel @Inject constructor(
     private val getTranslatedArticleContentUseCase: GetTranslatedArticleContentUseCase,
     private val synthesizeContentToFileUseCase: SynthesizeContentToFileUseCase,
     private val exoPlayer: ExoPlayer,
-) : ViewModel() {
-    private val _newsDetailUiState = MutableStateFlow<NewsDetailUiState>(NewsDetailUiState.Loading)
-    val newsDetailUiState: StateFlow<NewsDetailUiState> = _newsDetailUiState.asStateFlow()
+) : ContainerHost<NewsDetailUiState, NewsDetailSideEffect>, ViewModel() {
+    override val container = container<NewsDetailUiState, NewsDetailSideEffect>(NewsDetailUiState())
 
-    fun refresh(id: String) {
-        viewModelScope.launch {
-            playSynthesizedAudio(id)
-            getTranslatedArticleContent(id)
-        }
+    fun refresh(id: String) = intent {
+        reduce { state.copy(isLoading = true) }
+        getTranslatedArticleContent(id)
+        playSynthesizedAudio(id)
+        reduce { state.copy(isLoading = false) }
     }
 
-    private suspend fun playSynthesizedAudio(id: String) {
+    private fun playSynthesizedAudio(id: String) = intent {
         synthesizeContentToFileUseCase(id)
             .onSuccess { files ->
                 val mediaItems = files.map {
                     val uri = Uri.fromFile(it)
                     MediaItem.fromUri(uri)
                 }
-                exoPlayer.setMediaItems(mediaItems)
-                exoPlayer.prepare()
-                exoPlayer.play()
+                withContext(Dispatchers.Main) {
+                    exoPlayer.setMediaItems(mediaItems)
+                    exoPlayer.prepare()
+                    exoPlayer.play()
+                }
             }
             .onFailure {
-                _newsDetailUiState.value = NewsDetailUiState.Error(it.message)
+                reduce { state.copy(error = it.message) }
+                postSideEffect(NewsDetailSideEffect.ShowSnackbar(state.error))
             }
     }
 
-    private suspend fun getTranslatedArticleContent(id: String) {
+    private fun getTranslatedArticleContent(id: String) = intent {
         getTranslatedArticleContentUseCase(id)
             .onSuccess {
-                _newsDetailUiState.value = NewsDetailUiState.Success(it)
+                reduce { state.copy(articleWithBodyText = it) }
             }
             .onFailure {
-                _newsDetailUiState.value = NewsDetailUiState.Error(it.message)
+                reduce { state.copy(error = it.message) }
+                postSideEffect(NewsDetailSideEffect.ShowSnackbar(state.error))
             }
     }
 

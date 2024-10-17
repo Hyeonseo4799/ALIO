@@ -14,13 +14,20 @@ internal fun ALIONavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     startDestination: Route = Route.NewsFeed,
+    showSnackbar: (String?) -> Unit,
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        newsFeedScreen(navigateToNewsDetail = navController::navigateToNewsDetail)
-        newsDetailScreen(navigateToBack = navController::popBackStack)
+        newsFeedScreen(
+            navigateToNewsDetail = navController::navigateToNewsDetail,
+            showSnackbar = showSnackbar
+        )
+        newsDetailScreen(
+            navigateToBack = navController::popBackStack,
+            showSnackbar = showSnackbar
+        )
     }
 }

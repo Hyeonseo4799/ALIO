@@ -2,52 +2,45 @@ package com.skogkatt.news.feed
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.skogkatt.domain.GetTranslatedArticlesUseCase
 import com.skogkatt.domain.GetTranslatedEditorsPicksUseCase
-import com.skogkatt.model.article.Article
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsFeedViewModel @Inject constructor(
     private val getTranslatedEditorsPicksUseCase: GetTranslatedEditorsPicksUseCase,
     private val getTranslatedArticlesUseCase: GetTranslatedArticlesUseCase,
-) : ViewModel() {
-    private val _newsFeedUiState = MutableStateFlow<NewsFeedUiState>(NewsFeedUiState.Loading)
-    val newsFeedUiState: StateFlow<NewsFeedUiState> = _newsFeedUiState.asStateFlow()
+) : ContainerHost<NewsFeedUiState, NewsFeedSideEffect>, ViewModel() {
+    override val container = container<NewsFeedUiState, NewsFeedSideEffect>(NewsFeedUiState())
 
-    private val _latestArticles = MutableStateFlow<PagingData<Article>>(PagingData.empty())
-    val latestArticles: Flow<PagingData<Article>> = _latestArticles
-
-    fun refresh(section: String? = null) {
-        viewModelScope.launch {
-            getTranslatedEditorsPicks()
-            getTranslatedArticles(section)
-        }
+    fun refresh(section: String? = null) = intent {
+        getTranslatedEditorsPicks()
+        getTranslatedArticles(section)
     }
 
-    private suspend fun getTranslatedEditorsPicks() {
+    private fun getTranslatedEditorsPicks() = intent {
         getTranslatedEditorsPicksUseCase()
             .onSuccess {
-                _newsFeedUiState.value = NewsFeedUiState.Success(it)
+                reduce { state.copy(editorsPicks = it) }
             }
             .onFailure {
-                _newsFeedUiState.value = NewsFeedUiState.Error(it.message)
+                reduce { state.copy(error = it.message) }
+                postSideEffect(NewsFeedSideEffect.ShowSnackbar(state.error))
             }
     }
 
-    private suspend fun getTranslatedArticles(section: String?) {
-        getTranslatedArticlesUseCase(section = section)
+    private fun getTranslatedArticles(section: String?) = intent {
+        val latestArticles = getTranslatedArticlesUseCase(section = section)
             .cachedIn(viewModelScope)
-            .collect {
-                _latestArticles.value = it
+            .catch {
+                reduce { state.copy(error = it.message) }
+                postSideEffect(NewsFeedSideEffect.ShowSnackbar(state.error))
             }
+        reduce { state.copy(latestArticles = latestArticles) }
     }
 }

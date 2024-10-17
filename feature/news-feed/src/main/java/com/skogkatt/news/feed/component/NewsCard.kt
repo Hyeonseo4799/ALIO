@@ -1,4 +1,4 @@
-package com.skogkatt.news.feed
+package com.skogkatt.news.feed.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

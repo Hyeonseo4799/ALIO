@@ -1,4 +1,4 @@
-package com.skogkatt.news.detail
+package com.skogkatt.news.detail.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
