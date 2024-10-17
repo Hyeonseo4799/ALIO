@@ -2,6 +2,9 @@ package com.skogkatt.domain
 
 import com.skogkatt.data.repository.synthesis.SynthesisRepository
 import com.skogkatt.model.synthesis.Synthesis
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class SynthesizeArticleContentUseCase @Inject constructor(
@@ -11,11 +14,13 @@ class SynthesizeArticleContentUseCase @Inject constructor(
     suspend operator fun invoke(id: String, voice: String = "ko-KR-Neural2-B"): Result<List<ByteArray>> {
         return getTranslatedArticleContentUseCase(id).mapCatching { articleContent ->
             val texts = articleContent.bodyText.split("\n\n")
-
-            texts.map { text ->
-                val synthesis = Synthesis(text = text, voice = voice)
-                synthesisRepository.synthesize(synthesis)
+            val results = coroutineScope {
+                texts.map { text ->
+                    val synthesis = Synthesis(text = text, voice = voice)
+                    async { synthesisRepository.synthesize(synthesis) }
+                }
             }
+            results.awaitAll()
         }
     }
 }
