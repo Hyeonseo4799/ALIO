@@ -6,6 +6,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import com.skogkatt.domain.GetTranslatedArticleContentUseCase
 import com.skogkatt.domain.SynthesizeContentToFileUseCase
+import com.skogkatt.model.article.ArticleWithBodyText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,15 +24,26 @@ class NewsDetailViewModel @Inject constructor(
 
     fun refresh(id: String) = intent {
         reduce { state.copy(isLoading = true) }
-        playSynthesizedAudio(id)
         getTranslatedArticleContent(id)
     }
 
-    private fun playSynthesizedAudio(id: String) = intent {
-        synthesizeContentToFileUseCase(id)
+    private fun getTranslatedArticleContent(id: String) = intent {
+        getTranslatedArticleContentUseCase(id)
+            .onSuccess {
+                reduce { state.copy(articleWithBodyText = it) }
+                playSynthesizedAudio(it)
+            }
+            .onFailure {
+                reduce { state.copy(error = it.message) }
+                postSideEffect(NewsDetailSideEffect.ShowSnackbar(state.error))
+            }
+    }
+
+    private fun playSynthesizedAudio(articleWithBodyText: ArticleWithBodyText) = intent {
+        synthesizeContentToFileUseCase(articleWithBodyText)
             .onSuccess { files ->
-                val mediaItems = files.map {
-                    val uri = Uri.fromFile(it)
+                val mediaItems = files.map { file ->
+                    val uri = Uri.fromFile(file)
                     MediaItem.fromUri(uri)
                 }
                 withContext(Dispatchers.Main) {
@@ -40,17 +52,6 @@ class NewsDetailViewModel @Inject constructor(
                     exoPlayer.play()
                     reduce { state.copy(isLoading = false) }
                 }
-            }
-            .onFailure {
-                reduce { state.copy(error = it.message) }
-                postSideEffect(NewsDetailSideEffect.ShowSnackbar(state.error))
-            }
-    }
-
-    private fun getTranslatedArticleContent(id: String) = intent {
-        getTranslatedArticleContentUseCase(id)
-            .onSuccess {
-                reduce { state.copy(articleWithBodyText = it) }
             }
             .onFailure {
                 reduce { state.copy(error = it.message) }
