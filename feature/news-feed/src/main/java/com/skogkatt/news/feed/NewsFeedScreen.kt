@@ -32,20 +32,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
-import com.skogkatt.model.article.Article
 import com.skogkatt.news.feed.component.EditorPicksCard
 import com.skogkatt.news.feed.component.NewsCard
 import com.skogkatt.ui.farnhamHeadline
 import com.skogkatt.ui.pretendard
-import kotlinx.coroutines.flow.flowOf
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import kotlin.math.roundToInt
@@ -60,7 +57,6 @@ fun NewsFeedRoute(
     showSnackbar: (String?) -> Unit,
 ) {
     val newsFeedUiState by viewModel.collectAsState()
-    val latestArticles = newsFeedUiState.latestArticles.collectAsLazyPagingItems()
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -74,7 +70,6 @@ fun NewsFeedRoute(
 
     NewsFeedScreen(
         newsFeedUiState = newsFeedUiState,
-        latestArticles = latestArticles,
         navigateToNewsDetail = navigateToNewsDetail,
         modifier = modifier,
     )
@@ -84,10 +79,11 @@ fun NewsFeedRoute(
 @Composable
 internal fun NewsFeedScreen(
     newsFeedUiState: NewsFeedUiState,
-    latestArticles: LazyPagingItems<Article>,
     navigateToNewsDetail: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val latestArticles = newsFeedUiState.latestArticles.collectAsLazyPagingItems()
+
     val appBarHeightPx = with(LocalDensity.current) { AppBarHeight.roundToPx().toFloat() }
     val appBarOffsetPx = remember { mutableFloatStateOf(0f) }
     val nestedScrollConnection = remember {
@@ -219,30 +215,11 @@ internal fun NewsFeedScreen(
 
 @Preview
 @Composable
-private fun NewsFeedScreenPreview() {
-    val editorsPicks = List(5) {
-        Article(
-            id = "australia-news/article/2024/jun/18/reserve-bank-leaves-interest-rate-on-hold-at-435-with-borrowers-left-waiting-for-relief",
-            sectionId = "australia-news",
-            publishedAt = "10분 전",
-            title = "중앙 은행은 대출자들이 구제를 기다리는 동안 금리를 4.35%로 동결합니다.",
-            thumbnailUrl = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg"
-        )
-    }
-
-    val articles = List(10) {
-        Article(
-            id = "business/article/2024/jun/18/investment-in-uk-has-trailed-other-g7-countries-since-mid-1990s-ippr-says/$it",
-            sectionId = "business",
-            publishedAt = "1시간 전",
-            title = "영국에 대한 투자는 1990 년대 중반 이후 다른 G7 국가를 뒤쫓고 있다고 IPPR은 말합니다.",
-            thumbnailUrl = "https://media.guim.co.uk/ae194759ab246c9f9d80ac7ec6209888b31dd133/0_373_5559_3337/500.jpg"
-        )
-    }
-
+private fun NewsFeedScreenPreview(
+    @PreviewParameter(NewsFeedPreviewParameterProvider::class) newsFeedUiState: NewsFeedUiState,
+) {
     NewsFeedScreen(
-        newsFeedUiState = NewsFeedUiState(editorsPicks = editorsPicks),
-        latestArticles = flowOf(PagingData.from(articles)).collectAsLazyPagingItems(),
+        newsFeedUiState = newsFeedUiState,
         navigateToNewsDetail = { },
     )
 }
