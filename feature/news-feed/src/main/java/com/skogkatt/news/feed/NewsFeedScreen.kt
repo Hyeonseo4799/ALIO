@@ -61,6 +61,7 @@ fun NewsFeedRoute(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is NewsFeedSideEffect.ShowSnackbar -> showSnackbar(sideEffect.error)
+            is NewsFeedSideEffect.OnNewsClicked -> navigateToNewsDetail(sideEffect.id)
         }
     }
 
@@ -70,7 +71,7 @@ fun NewsFeedRoute(
 
     NewsFeedScreen(
         newsFeedUiState = newsFeedUiState,
-        navigateToNewsDetail = navigateToNewsDetail,
+        onNewsClicked = viewModel::onNewsClicked,
         modifier = modifier,
     )
 }
@@ -79,7 +80,7 @@ fun NewsFeedRoute(
 @Composable
 internal fun NewsFeedScreen(
     newsFeedUiState: NewsFeedUiState,
-    navigateToNewsDetail: (String) -> Unit,
+    onNewsClicked: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val latestArticles = newsFeedUiState.latestArticles.collectAsLazyPagingItems()
@@ -144,7 +145,7 @@ internal fun NewsFeedScreen(
                         title = editorsPick.title,
                         relativeTime = editorsPick.publishedAt,
                         imageUrl = editorsPick.thumbnailUrl,
-                        onClick = { navigateToNewsDetail(editorsPick.id) },
+                        onClick = { onNewsClicked(editorsPick.id) },
                     )
                 }
             }
@@ -183,7 +184,7 @@ internal fun NewsFeedScreen(
                         title = latestArticle.title,
                         relativeTime = latestArticle.publishedAt,
                         imageUrl = latestArticle.thumbnailUrl,
-                        onClick = { navigateToNewsDetail(latestArticle.id) }
+                        onClick = { onNewsClicked(latestArticle.id) }
                     )
                 }
             }
@@ -220,6 +221,6 @@ private fun NewsFeedScreenPreview(
 ) {
     NewsFeedScreen(
         newsFeedUiState = newsFeedUiState,
-        navigateToNewsDetail = { },
+        onNewsClicked = { },
     )
 }

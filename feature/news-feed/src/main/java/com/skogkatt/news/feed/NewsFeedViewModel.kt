@@ -23,6 +23,10 @@ class NewsFeedViewModel @Inject constructor(
         getTranslatedArticles(section)
     }
 
+    fun onNewsClicked(id: String) = intent {
+        postSideEffect(NewsFeedSideEffect.OnNewsClicked(id))
+    }
+
     private fun getTranslatedEditorsPicks() = intent {
         getTranslatedEditorsPicksUseCase()
             .onSuccess {
