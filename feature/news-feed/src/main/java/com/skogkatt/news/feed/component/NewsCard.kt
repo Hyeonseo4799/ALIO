@@ -11,12 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.skogkatt.ui.R
 import com.skogkatt.ui.pretendard
 import com.skydoves.landscapist.glide.GlideImage
@@ -29,6 +29,8 @@ internal fun NewsCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val density = LocalDensity.current
+
     Card(
         onClick = onClick,
         modifier = modifier,
@@ -49,7 +51,7 @@ internal fun NewsCard(
                 Text(
                     text = title,
                     color = Color.Black,
-                    fontSize = 16.sp,
+                    fontSize = with(density) { 16.dp.toSp() },
                     fontWeight = FontWeight.SemiBold,
                     fontFamily = pretendard,
                     overflow = TextOverflow.Ellipsis,
@@ -58,7 +60,7 @@ internal fun NewsCard(
                 Text(
                     text = relativeTime,
                     color = Color.Gray,
-                    fontSize = 14.sp,
+                    fontSize = with(density) { 14.dp.toSp() },
                     fontWeight = FontWeight.Medium,
                     fontFamily = pretendard,
                 )
