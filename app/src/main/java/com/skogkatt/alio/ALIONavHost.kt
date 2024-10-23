@@ -26,7 +26,7 @@ internal fun ALIONavHost(
             showSnackbar = showSnackbar
         )
         newsDetailScreen(
-            navigateToBack = navController::popBackStack,
+            navigateToBack = navController::navigateUp,
             showSnackbar = showSnackbar
         )
     }
