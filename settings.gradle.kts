@@ -25,8 +25,8 @@ include(":core:domain")
 include(":core:navigation")
 include(":core:media")
 include(":feature:news-feed")
-
 include(":feature:news-detail")
+include(":baselineprofile")
 // Resolve build-logic rebuild failure
 // https://issuetracker.google.com/issues/315023802
 gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:testClasses"))

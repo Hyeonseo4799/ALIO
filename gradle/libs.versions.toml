@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = "8.7.1"
+androidGradlePlugin = "8.6.0"
 androidxCore = "1.13.1"
 androidxAppCompat = "1.7.0"
 androidxActivity = "1.9.3"
@@ -26,6 +26,10 @@ androidxEspresso = "3.6.1"
 detekt = "1.23.7"
 
 orbit-mvi = "9.0.0"
+uiautomator = "2.3.0"
+benchmarkMacroJunit4 = "1.3.2"
+baselineprofile = "1.2.4"
+profileinstaller = "1.4.1"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -67,6 +71,9 @@ detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-form
 
 orbit-viewmodel = { group = "org.orbit-mvi", name = "orbit-viewmodel", version.ref = "orbit-mvi" }
 orbit-compose = { group = "org.orbit-mvi", name = "orbit-compose", version.ref = "orbit-mvi"}
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -79,3 +86,5 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
+baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineprofile" }
