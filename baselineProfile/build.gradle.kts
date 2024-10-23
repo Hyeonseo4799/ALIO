@@ -30,7 +30,7 @@ android {
     targetProjectPath = ":app"
 
     testOptions.managedDevices.devices {
-        create<ManagedVirtualDevice>("pixel6Api34") {
+        create<ManagedVirtualDevice>("pixel6api34") {
             device = "Pixel 6"
             apiLevel = 34
             systemImageSource = "aosp"
