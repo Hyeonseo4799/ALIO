@@ -39,16 +39,16 @@ internal class ArticleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getArticleContent(id: String): ArticleWithBodyText {
-        val articleContent = articleDao.getArticleContent(id)?.toArticleWithBodyText()
+    override fun insertArticle(articleWithBodyText: ArticleWithBodyText) {
+        return articleDao.insertArticle(articleWithBodyText.toArticleEntity())
+    }
 
-        if (articleContent == null) {
-            val articleWithBodyText = articleDataSource.getArticleContent(id).response.articleContent.toArticleWithBodyText()
-            articleDao.insertArticle(articleWithBodyText.toArticleEntity())
+    override suspend fun getLatestArticleContent(id: String): ArticleWithBodyText {
+        return articleDataSource.getArticleContent(id).response.articleContent.toArticleWithBodyText()
+    }
 
-            return articleWithBodyText
-        }
-        return articleContent
+    override suspend fun getArticleContent(id: String): ArticleWithBodyText? {
+        return articleDao.getArticleContent(id)?.toArticleWithBodyText()
     }
 
     override suspend fun getEditorsPicks(): List<Article> {

@@ -8,7 +8,11 @@ import kotlinx.coroutines.flow.Flow
 interface ArticleRepository {
     fun getArticles(section: String?): Flow<PagingData<Article>>
 
-    suspend fun getArticleContent(id: String): ArticleWithBodyText
+    fun insertArticle(articleWithBodyText: ArticleWithBodyText)
+
+    suspend fun getLatestArticleContent(id: String): ArticleWithBodyText
+
+    suspend fun getArticleContent(id: String): ArticleWithBodyText?
 
     suspend fun getEditorsPicks(): List<Article>
 }
