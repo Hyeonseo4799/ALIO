@@ -1,5 +1,6 @@
 package com.skogkatt.data.model.article
 
+import com.skogkatt.data.datasource.local.article.entitiy.ArticleEntity
 import com.skogkatt.data.util.toTimeAgo
 import com.skogkatt.model.article.ArticleWithBodyText
 import com.skogkatt.network.model.article.ArticleWithBodyTextResponse
@@ -11,4 +12,22 @@ internal fun ArticleWithBodyTextResponse.toArticleWithBodyText() = ArticleWithBo
     title = title,
     thumbnailUrl = fields.thumbnailUrl,
     bodyText = fields.bodyText,
+)
+
+internal fun ArticleEntity.toArticleWithBodyText() = ArticleWithBodyText(
+    id = id,
+    sectionId = sectionId,
+    publishedAt = publishedAt,
+    title = title,
+    thumbnailUrl = thumbnailUrl,
+    bodyText = bodyText,
+)
+
+internal fun ArticleWithBodyText.toArticleEntity() = ArticleEntity(
+    id = id,
+    sectionId = sectionId,
+    publishedAt = publishedAt,
+    title = title,
+    thumbnailUrl = thumbnailUrl,
+    bodyText = bodyText
 )

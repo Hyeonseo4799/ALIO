@@ -6,6 +6,7 @@ androidxActivity = "1.9.3"
 androidxComposeBom = "2024.10.00"
 androidxNavigation = "2.8.3"
 androidxMedia3 = "1.4.1"
+androidxRoom = "2.6.1"
 kotlinxSerializationJson = "1.7.3"
 kotlin = "2.0.21"
 kotlinDatetime = "0.6.1"
@@ -48,6 +49,8 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "androidxMedia3" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
 
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinDatetime" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
