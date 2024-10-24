@@ -11,17 +11,25 @@ class GetTranslatedArticleContentUseCase @Inject constructor(
     private val translationRepository: TranslationRepository,
 ) {
     suspend operator fun invoke(id: String): Result<ArticleWithBodyText> = runCatching {
-        val articleContent = articleRepository.getArticleContent(id)
+        articleRepository.getArticleContent(id)?.let { articleWithBodyText ->
+            if (articleWithBodyText.bodyText != "") {
+                return@runCatching articleWithBodyText
+            }
+        }
+
+        val articleContent = articleRepository.getLatestArticleContent(id)
         val translation = Translation(listOf(articleContent.title, articleContent.bodyText))
         val (translatedTitle, translatedBodyText) = translationRepository.translate(translation)
 
         val regex = Regex("""\.(")|다\.""")
-
-        articleContent.copy(
+        val translatedArticleContent = articleContent.copy(
             title = translatedTitle,
             bodyText = translatedBodyText.replace(regex) {
                 if (it.value == ".\"") ".\"\n\n" else "다.\n\n"
             }
         )
+        articleRepository.insertArticle(translatedArticleContent)
+
+        translatedArticleContent
     }
 }

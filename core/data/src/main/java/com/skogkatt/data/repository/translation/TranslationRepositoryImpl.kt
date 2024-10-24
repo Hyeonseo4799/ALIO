@@ -1,6 +1,6 @@
 package com.skogkatt.data.repository.translation
 
-import com.skogkatt.data.datasource.translation.TranslationDataSource
+import com.skogkatt.data.datasource.remote.translation.TranslationDataSource
 import com.skogkatt.data.model.translation.toTranslationRequest
 import com.skogkatt.model.translation.Translation
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.skogkatt.data.datasource.article
+package com.skogkatt.data.datasource.remote.article
 
 import com.skogkatt.network.model.Response
 import com.skogkatt.network.model.article.ArticleContentResponse
