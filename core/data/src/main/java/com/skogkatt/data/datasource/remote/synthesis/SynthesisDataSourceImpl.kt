@@ -1,4 +1,4 @@
-package com.skogkatt.data.datasource.synthesis
+package com.skogkatt.data.datasource.remote.synthesis
 
 import com.skogkatt.network.api.retrofit.GoogleTTSApi
 import com.skogkatt.network.model.synthesis.SynthesisRequest

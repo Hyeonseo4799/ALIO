@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.skogkatt.data.datasource.article.ArticleDataSource
+import com.skogkatt.data.datasource.remote.article.ArticleDataSource
 import com.skogkatt.data.datasource.local.article.dao.ArticleDao
 import com.skogkatt.data.model.article.toArticle
 import com.skogkatt.data.model.article.toArticleEntity

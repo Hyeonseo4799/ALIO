@@ -1,4 +1,4 @@
-package com.skogkatt.data.datasource.article
+package com.skogkatt.data.datasource.remote.article
 
 import com.skogkatt.network.api.retrofit.GuardianApi
 import com.skogkatt.network.model.Response

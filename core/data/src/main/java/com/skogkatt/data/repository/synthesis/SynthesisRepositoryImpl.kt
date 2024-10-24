@@ -1,7 +1,7 @@
 package com.skogkatt.data.repository.synthesis
 
 import android.util.Base64
-import com.skogkatt.data.datasource.synthesis.SynthesisDataSource
+import com.skogkatt.data.datasource.remote.synthesis.SynthesisDataSource
 import com.skogkatt.data.model.synthesis.toSynthesisRequest
 import com.skogkatt.model.synthesis.Synthesis
 import javax.inject.Inject

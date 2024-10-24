@@ -1,4 +1,4 @@
-package com.skogkatt.data.datasource.translation
+package com.skogkatt.data.datasource.remote.translation
 
 import com.skogkatt.network.model.translation.TranslationRequest
 import com.skogkatt.network.model.translation.TranslationResponse

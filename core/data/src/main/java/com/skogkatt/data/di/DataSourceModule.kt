@@ -1,11 +1,11 @@
 package com.skogkatt.data.di
 
-import com.skogkatt.data.datasource.article.ArticleDataSource
-import com.skogkatt.data.datasource.article.ArticleDataSourceImpl
-import com.skogkatt.data.datasource.synthesis.SynthesisDataSource
-import com.skogkatt.data.datasource.synthesis.SynthesisDataSourceImpl
-import com.skogkatt.data.datasource.translation.TranslationDataSource
-import com.skogkatt.data.datasource.translation.TranslationDataSourceImpl
+import com.skogkatt.data.datasource.remote.article.ArticleDataSource
+import com.skogkatt.data.datasource.remote.article.ArticleDataSourceImpl
+import com.skogkatt.data.datasource.remote.synthesis.SynthesisDataSource
+import com.skogkatt.data.datasource.remote.synthesis.SynthesisDataSourceImpl
+import com.skogkatt.data.datasource.remote.translation.TranslationDataSource
+import com.skogkatt.data.datasource.remote.translation.TranslationDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
