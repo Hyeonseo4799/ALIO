@@ -14,7 +14,6 @@ import com.skogkatt.data.paging.ArticlePagingSource
 import com.skogkatt.model.article.Article
 import com.skogkatt.model.article.ArticleWithBodyText
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
