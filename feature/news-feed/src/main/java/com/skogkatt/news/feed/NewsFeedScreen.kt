@@ -87,6 +87,7 @@ internal fun NewsFeedScreen(
 
     val appBarHeightPx = with(LocalDensity.current) { AppBarHeight.roundToPx().toFloat() }
     val appBarOffsetPx = remember { mutableFloatStateOf(0f) }
+    val isLoading = newsFeedUiState.editorsPicks.isEmpty() || latestArticles.itemCount == 0
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
@@ -104,7 +105,7 @@ internal fun NewsFeedScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .nestedScroll(nestedScrollConnection)
+            .then(if (!isLoading) Modifier.nestedScroll(nestedScrollConnection) else Modifier)
             .background(color = Color(0xFFF8F8F8))
     ) {
         LazyColumn(
