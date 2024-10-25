@@ -3,6 +3,7 @@ package com.skogkatt.data.repository.article
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.filter
 import androidx.paging.map
 import com.skogkatt.data.datasource.remote.article.ArticleDataSource
 import com.skogkatt.data.datasource.local.article.dao.ArticleDao
@@ -13,6 +14,7 @@ import com.skogkatt.data.paging.ArticlePagingSource
 import com.skogkatt.model.article.Article
 import com.skogkatt.model.article.ArticleWithBodyText
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -35,7 +37,9 @@ internal class ArticleRepositoryImpl @Inject constructor(
                 }
             },
         ).flow.map { pagingData ->
-            pagingData.map { it.toArticle() }
+            pagingData
+                .map { it.toArticle() }
+                .filter { !it.title.contains("Corrections and clarifications") }
         }
     }
 
