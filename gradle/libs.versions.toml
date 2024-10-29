@@ -28,7 +28,7 @@ detekt = "1.23.7"
 
 orbit-mvi = "9.0.0"
 uiautomator = "2.3.0"
-benchmarkMacroJunit4 = "1.3.2"
+benchmarkMacroJunit4 = "1.3.3"
 baselineprofile = "1.2.4"
 profileinstaller = "1.4.1"
 
