@@ -14,10 +14,9 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":core:navigation"))
-    implementation(project(":feature:news-feed"))
-    implementation(project(":feature:news-detail"))
+    implementation(projects.core.navigation)
+    implementation(projects.feature.newsFeed)
+    implementation(projects.feature.newsDetail)
 
     implementation(libs.androidx.navigation)
     

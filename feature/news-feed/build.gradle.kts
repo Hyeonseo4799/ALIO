@@ -7,7 +7,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.landscapist.glide)
 
     implementation(libs.paging.runtime)
