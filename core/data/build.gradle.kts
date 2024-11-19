@@ -8,9 +8,8 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":core:network"))
-    implementation(project(":core:model"))
+    implementation(projects.core.network)
+    implementation(projects.core.model)
 
     implementation(libs.paging.runtime)
 

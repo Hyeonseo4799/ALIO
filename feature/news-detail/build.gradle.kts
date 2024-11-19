@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:media"))
+    implementation(projects.core.media)
 
     implementation(libs.landscapist.glide)
 
