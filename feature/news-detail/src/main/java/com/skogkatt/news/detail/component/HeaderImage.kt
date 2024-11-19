@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.skogkatt.ui.R
+import com.skogkatt.news.detail.R
 import com.skogkatt.ui.pretendard
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -31,13 +31,15 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 internal fun HeaderImage(
     imageUrl: String,
+    autoscroll: Boolean,
     relativeTime: String,
     navigateToBack: () -> Unit,
+    changeAutoScroll: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier) {
         GlideImage(
-            imageModel = { if (imageUrl != "") imageUrl else R.drawable.img_no_image },
+            imageModel = { if (imageUrl != "") imageUrl else com.skogkatt.ui.R.drawable.img_no_image },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(260.dp)
@@ -48,7 +50,7 @@ internal fun HeaderImage(
                     blendMode = BlendMode.Darken,
                 )
             ),
-            previewPlaceholder = painterResource(id = R.drawable.img_placeholder),
+            previewPlaceholder = painterResource(id = com.skogkatt.ui.R.drawable.img_placeholder),
         )
         IconButton(
             onClick = navigateToBack,
@@ -59,6 +61,21 @@ internal fun HeaderImage(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                contentDescription = "back",
+            )
+        }
+        val lockImage = if (autoscroll) R.drawable.ic_open else R.drawable.ic_lock
+        IconButton(
+            onClick = changeAutoScroll,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(4.dp),
+            colors = IconButtonDefaults.iconButtonColors(
+                contentColor = Color.White
+            ),
+        ) {
+            Icon(
+                painter = painterResource(id = lockImage),
                 contentDescription = "back",
             )
         }
@@ -81,6 +98,8 @@ private fun HeaderImagePreview() {
     HeaderImage(
         imageUrl = "https://media.guim.co.uk/fe3089b924e907625af3b3d3d82a7efae9f20cb7/0_41_3235_1941/500.jpg",
         relativeTime = "10분 전",
+        autoscroll = true,
         navigateToBack = { },
+        changeAutoScroll = { },
     )
 }

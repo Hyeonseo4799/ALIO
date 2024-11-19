@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +49,7 @@ fun NewsDetailRoute(
     val newsDetailUiState by viewModel.collectAsState()
     val scrollState = rememberLazyListState()
     var sentenceCount by remember { mutableIntStateOf(1) }
+    var autoScroll by rememberSaveable { mutableStateOf(true) }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -65,22 +68,28 @@ fun NewsDetailRoute(
     }
 
     LaunchedEffect(sentenceCount) {
-        scrollState.animateScrollToItem(sentenceCount)
+        if (autoScroll) {
+            scrollState.animateScrollToItem(sentenceCount)
+        }
     }
 
     NewsDetailScreen(
+        autoScroll = autoScroll,
         newsDetailUiState = newsDetailUiState,
-        navigateToBack = navigateToBack,
         scrollState = scrollState,
+        navigateToBack = navigateToBack,
+        changeAutoScroll = { autoScroll = !autoScroll },
         modifier = modifier,
     )
 }
 
 @Composable
 internal fun NewsDetailScreen(
+    autoScroll: Boolean,
     newsDetailUiState: NewsDetailUiState,
     scrollState: LazyListState,
     navigateToBack: () -> Unit,
+    changeAutoScroll: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val content = newsDetailUiState.articleWithBodyText
@@ -106,8 +115,10 @@ internal fun NewsDetailScreen(
             item {
                 HeaderImage(
                     imageUrl = content.thumbnailUrl,
+                    autoscroll = autoScroll,
                     relativeTime = content.publishedAt,
                     navigateToBack = navigateToBack,
+                    changeAutoScroll = changeAutoScroll,
                 )
             }
 
@@ -145,8 +156,10 @@ private fun NewsDetailScreenPreview(
     @PreviewParameter(NewsDetailPreviewParameterProvider::class) newsDetailUiState: NewsDetailUiState
 ) {
     NewsDetailScreen(
+        autoScroll = true,
         newsDetailUiState = newsDetailUiState,
         scrollState = rememberLazyListState(),
         navigateToBack = { },
+        changeAutoScroll = { },
     )
 }
