@@ -68,7 +68,7 @@ fun NewsDetailRoute(
     }
 
     LaunchedEffect(sentenceCount) {
-        if (autoScroll) {
+        if (autoScroll && sentenceCount != 1) {
             scrollState.animateScrollToItem(sentenceCount)
         }
     }
